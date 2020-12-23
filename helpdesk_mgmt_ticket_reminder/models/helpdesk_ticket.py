@@ -8,6 +8,8 @@ import datetime
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
+    reminder_active = fields.Boolean(string='Reminder include', default=True)
+
     @api.model
     def _send_activity_reminder_all(self):
         # This process is skipped on weekend
@@ -16,6 +18,7 @@ class HelpdeskTicket(models.Model):
         reminder_date = fields.datetime.now() - datetime.timedelta(days=7)
         tickets = self.search([
             ('stage_id.closed', '=', False),
+            ('reminder_active', '=', True),
             ('write_date', '<=', reminder_date)])
         # TODO test data
         # tickets = self.browse([1869, 1870])
