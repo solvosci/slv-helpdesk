@@ -10,4 +10,18 @@
             </xpath>
         </field>
     </record>
+
+    <record id="helpdesk_ticket_view_search" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.helpdesk_ticket_view_search" />
+        <field name="arch" type="xml">
+            <filter name="my_followed_tickets" position="after">
+                <separator/>
+                <filter name="reminder_active" string="With reminder" domain="[('reminder_active', '=', True)]"/>
+                <filter name="reminder_no_active" string="Without reminder" domain="[('reminder_active', '=', False)]"/>
+            </filter>
+        </field>
+    </record>
+
 </odoo>
