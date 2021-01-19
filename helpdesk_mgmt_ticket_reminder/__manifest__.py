@@ -5,7 +5,7 @@
     "summary": """
         Adds a custom email reminder of ticket inactivity in Helpdesk.
     """,
-    "version": "12.0.2.0.0",
+    "version": "12.0.2.1.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
