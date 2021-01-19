@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 12:46+0000\n"
-"PO-Revision-Date: 2020-12-23 12:46+0000\n"
+"POT-Creation-Date: 2021-01-19 10:44+0000\n"
+"PO-Revision-Date: 2021-01-19 10:44+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,4 +67,14 @@ msgstr "Recordatorio: Ticket de Helpdesk ${object.number} de ${object.partner_na
 #: model:ir.cron,name:helpdesk_mgmt_ticket_reminder.ir_cron_ticket_reminder
 msgid "Ticket: Activity reminder"
 msgstr "Ticket: recordatorio de actividad"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_ticket_reminder.helpdesk_ticket_view_search
+msgid "With reminder"
+msgstr "Con recordatorio"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_ticket_reminder.helpdesk_ticket_view_search
+msgid "Without reminder"
+msgstr "Sin recordatorio"
 
