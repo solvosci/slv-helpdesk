@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="ticket_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.tree</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="." position="attributes">
+                <attribute name="decoration-muted">not active</attribute>
+                <attribute name="decoration-danger">active and unattended</attribute>
+                <attribute name='decoration-success'>active and closed</attribute>
+            </xpath>
+            <field name="stage_id" position="after">
+                <field name="active" invisible="True"/>
+                <field name="unattended" invisible="True"/>
+                <field name="closed" invisible="True"/>
+            </field>
+        </field>
+    </record>
+</odoo>
