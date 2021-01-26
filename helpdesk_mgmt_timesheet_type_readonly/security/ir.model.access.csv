@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_helpdesk_type_readonly,helpdesk_ticket_type_group_user,helpdesk_type.model_helpdesk_ticket_type,helpdesk_mgmt_timesheet_readonly.group_helpdesk_timesheet_readonly,1,0,0,0
