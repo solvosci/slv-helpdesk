@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_helpdesk_type_team_restricted" model="res.groups">
+            <field name="name">Tickets: restrict type depending on teams</field>
+        </record>
+    </data>
+</odoo>
