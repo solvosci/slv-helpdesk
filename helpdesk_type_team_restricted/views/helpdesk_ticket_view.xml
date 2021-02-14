@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+
+    <record id="view_helpdesk_ticket_form_type" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.view (in helpdesk_type_team_restricted)</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_type.view_helpdesk_ticket_form_type"/>
+        <field name="groups_id" eval="[(4, ref('group_helpdesk_type_team_restricted'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="domain">
+                    ['|', ('team_ids','=',False), ('team_ids.user_ids','in',[uid])]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+</data>
