@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_analytic_line_ticket_id_invisible_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line tree (Ticket Complete Name)</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="helpdesk_mgmt_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_line_ticket_complete_name_tree_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line tree (Ticket Complete Name)</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="before">
+                <field name="ticket_complete_name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_line_ticket_complete_name_form_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line form (Ticket Complete Name)</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="helpdesk_mgmt_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_id']" position="after">
+                <field name="ticket_name" string=""/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_line_ticket_complete_name_search_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line search (Ticket Complete Name)</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="helpdesk_mgmt_timesheet.hr_timesheet_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='groupby_ticket']" position="attributes">
+                <attribute name="context">{'group_by':'ticket_complete_name'}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
