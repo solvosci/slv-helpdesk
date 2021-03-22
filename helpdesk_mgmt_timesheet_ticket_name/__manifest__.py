@@ -5,7 +5,7 @@
     "summary": """
         Adds title to ticket number identifying a ticket in timesheet view.
     """,
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "license": "LGPL-3",
     "category": "helpdesk",
     "author": "Solvos",

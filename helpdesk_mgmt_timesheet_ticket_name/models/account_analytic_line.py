@@ -11,6 +11,7 @@ class AccountAnalyticLine(models.Model):
         related='ticket_id.complete_name',
         store=True,
         index=True,
+        compute_sudo=True,
     )
     ticket_name = fields.Char(
         related='ticket_id.name'
