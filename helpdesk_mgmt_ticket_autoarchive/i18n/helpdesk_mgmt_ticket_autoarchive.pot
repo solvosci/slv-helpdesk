@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* helpdesk_mgmt_ticket_autoarchive
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-16 06:12+0000\n"
+"PO-Revision-Date: 2021-04-16 06:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: model:ir.model,name:helpdesk_mgmt_ticket_autoarchive.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: model:ir.model.fields,field_description:helpdesk_mgmt_ticket_autoarchive.field_res_company__autoarchive_tickets
+msgid "Days to archive ticket"
+msgstr ""
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: model:ir.model,name:helpdesk_mgmt_ticket_autoarchive.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr ""
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: model:ir.actions.server,name:helpdesk_mgmt_ticket_autoarchive.helpdesk_ticket_autoarchive_cron_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mgmt_ticket_autoarchive.helpdesk_ticket_autoarchive_cron
+#: model:ir.cron,name:helpdesk_mgmt_ticket_autoarchive.helpdesk_ticket_autoarchive_cron
+msgid "Helpdesk Ticket Autoarchive"
+msgstr ""
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: model:ir.model.fields,help:helpdesk_mgmt_ticket_autoarchive.field_res_company__autoarchive_tickets
+msgid "If 0 is filled, this functionality will be disabled"
+msgstr ""
+
+#. module: helpdesk_mgmt_ticket_autoarchive
+#: code:addons/helpdesk_mgmt_ticket_autoarchive/models/res_company.py:20
+#, python-format
+msgid "Wrong value for Days to archive ticket: it cannot be negative!"
+msgstr ""
+
