@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_helpdesk_ticket_assignment_massive" model="ir.actions.server">
+        <field name="name">Assignment Massive</field>
+        <field name="model_id" ref="model_helpdesk_ticket" />
+        <field name="res_model">helpdesk.ticket.assignment.massive.wizard</field>
+        <field name="binding_model_id" ref="model_helpdesk_ticket"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="state">code</field>
+        <field name="multi">True</field>
+        <field name="code">
+            action=model.massive_assignment()
+        </field>
+    </record>
+</odoo>
