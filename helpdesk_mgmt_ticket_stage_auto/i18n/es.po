@@ -1,0 +1,62 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* helpdesk_mgmt_ticket_stage_auto
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-18 10:36+0000\n"
+"PO-Revision-Date: 2021-05-18 12:37+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.3\n"
+"Last-Translator: \n"
+"Language: es_ES\n"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.model.fields,field_description:helpdesk_mgmt_ticket_stage_auto.field_helpdesk_ticket_stage__auto_stage
+msgid "Auto Stage"
+msgstr "Etapa automática"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.model.fields,field_description:helpdesk_mgmt_ticket_stage_auto.field_helpdesk_ticket_stage__destination_stage
+msgid "Destination Stage"
+msgstr "Etapa destino"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.model,name:helpdesk_mgmt_ticket_stage_auto.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Helpdesk Ticket"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.model,name:helpdesk_mgmt_ticket_stage_auto.model_helpdesk_ticket_stage
+msgid "Helpdesk Ticket Stage"
+msgstr "Estado Ticket Helpdesk"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.model.fields,field_description:helpdesk_mgmt_ticket_stage_auto.field_helpdesk_ticket_stage__inactivity_time
+msgid "Inactivity time for stage change(Days)"
+msgstr "Tiempo de inactividad para cambio de etapa(Días)"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: model:ir.actions.server,name:helpdesk_mgmt_ticket_stage_auto.ir_cron_ticket_stage_auto_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mgmt_ticket_stage_auto.ir_cron_ticket_stage_auto
+#: model:ir.cron,name:helpdesk_mgmt_ticket_stage_auto.ir_cron_ticket_stage_auto
+msgid "Ticket: Stage auto"
+msgstr "Ticket: Etapa automática"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: code:addons/helpdesk_mgmt_ticket_stage_auto/models/helpdesk_ticket_stage.py:30
+#, python-format
+msgid "Wrong value for Destination Stage: It cannot be the same stage!"
+msgstr "Valor incorrecto de Etapa Destino: ¡No puede ser la misma etapa!"
+
+#. module: helpdesk_mgmt_ticket_stage_auto
+#: code:addons/helpdesk_mgmt_ticket_stage_auto/models/helpdesk_ticket_stage.py:38
+#, python-format
+msgid "Wrong value for Inactivity Time: Must be positive!"
+msgstr "Valor incorrecto de Tiempo de inactividad: ¡Debe ser positivo!"
