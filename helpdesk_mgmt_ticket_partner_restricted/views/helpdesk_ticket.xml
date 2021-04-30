@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="helpdesk_ticket_form_restricted_partner_id" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.form.restricted(partner_id)</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">['|',('company_id','=',company_id),('company_id','=',False)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
