@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="helpdesk_ticket_stage_view_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.stage.view.form (reminder_active)</field>
+        <field name="model">helpdesk.ticket.stage</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.view_helpdesk_ticket_stage_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='main']" position="after">
+                <group name="main2">
+                    <group name="main_left">
+                        <field name="auto_stage"/>
+                        <field name="destination_stage"/>
+                        <field name="inactivity_time"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
