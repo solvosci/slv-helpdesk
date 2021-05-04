@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_new_timesheet" model="ir.actions.act_window">
+        <field name="name">New Timesheet</field>
+        <field name="res_model">account.analytic.line</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('hr_timesheet.hr_timesheet_line_form')})]"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="hr_timesheet_line_form_addline" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.timesheet.view.form (addline)</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="after">
+                <footer>
+                    <button name="create_timesheet" id="create_timesheet" string="Create Timesheet" type="object"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_timesheet_view_form_addline" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.timesheet.view.form (addline)</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt_timesheet.timesheet_helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/tree" position="attributes">
+                <attribute name="editable">top</attribute>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']" position="before">
+                <button string="Create new timesheet"
+                    name="%(helpdesk_mgmt_timesheet_addline.action_new_timesheet)d"
+                    type="action"
+                    context="{'default_ticket_id': id, 'default_project_id': project_id, 'default_task_id': task_id}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
