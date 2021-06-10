@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_helpdesk_tree_recent" model="res.groups">
+            <field name="name">Sorts tickets on tree view by last update date</field>
+            <field name="category_id"
+                   ref="helpdesk_mgmt_timesheet_readonly.module_helpdesk_timesheet_category"/>
+        </record>
+    </data>
+</odoo>

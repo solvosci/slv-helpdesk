@@ -1,15 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <record id="ticket_view_tree" model="ir.ui.view">
-        <field name="name">helpdesk.ticket.view.tree</field>
+    <record id="helpdesk_ticket_view_tree_write_date" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.tree (write_date)</field>
         <field name="model">helpdesk.ticket</field>
         <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-                <attribute name="default_order">write_date desc</attribute>
-            </xpath>
             <xpath expr="//field[@name='create_date']" position="after">
                 <field name="write_date" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_view_tree_recent" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.tree (order write_date)</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_tree"/>
+        <field name="groups_id" eval="[(4,ref('group_helpdesk_tree_recent'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">write_date desc</attribute>
             </xpath>
         </field>
     </record>
