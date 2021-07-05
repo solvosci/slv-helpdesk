@@ -1,0 +1,10 @@
+<odoo>
+    <template id="report_timesheet_custom_order" inherit_id="hr_timesheet.report_timesheet">
+    
+        <xpath expr="//tbody/tr[1]" position="before">
+            <t t-if="user_id.has_group('helpdesk_mgmt_timesheet_report_order.group_helpdesk_timesheet_priority_order')">
+                <t t-set="docs" t-value="docs.sorted(key=lambda r: (r.ticket_id.priority, r.ticket_id.sequence, r.ticket_id.number), reverse=True)"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>
