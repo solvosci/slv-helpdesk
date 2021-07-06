@@ -19,7 +19,7 @@ Helpdesk Ticket Timesheet Report Order
 
 |badge1| |badge2| |badge3| 
 
-Adds priority order to timesheet reports.
+Adds timesheet ticket priority order to timesheet reports.
 
 **Table of contents**
 

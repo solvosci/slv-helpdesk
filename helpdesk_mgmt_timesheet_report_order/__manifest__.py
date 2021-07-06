@@ -3,7 +3,7 @@
 {
     "name": "Helpdesk Ticket Timesheet Report Order",
     "summary": """
-        Adds priority order to timesheet reports
+        Adds timesheet ticket priority order to timesheet reports
     """,
     "version": "12.0.1.0.0",
     "license": "LGPL-3",
