@@ -5,7 +5,7 @@
     "summary": """
         Adds a more accesible button for timesheet creation within ticket form
     """,
-    "version": "12.0.1.0.0",
+    "version": "12.0.2.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",

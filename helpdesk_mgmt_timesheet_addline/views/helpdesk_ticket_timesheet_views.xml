@@ -10,7 +10,7 @@
             <xpath expr="//field[@name='timesheet_ids']" position="before">
                 <button string="Create new timesheet"
                     name="%(helpdesk_mgmt_timesheet_addline.action_new_timesheet)d"
-                    class="oe_edit_only btn-primary"
+                    class="btn-primary"
                     type="action"
                     context="{'default_ticket_id': id, 'default_project_id': project_id, 'default_task_id': task_id}"/>
             </xpath>
