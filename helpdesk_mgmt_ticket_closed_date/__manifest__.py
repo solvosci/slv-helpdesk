@@ -5,7 +5,7 @@
     "summary": """
         Allows you to modify the closing date with some permissions.
     """,
-    "version": "12.0.1.0.0",
+    "version": "15.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
