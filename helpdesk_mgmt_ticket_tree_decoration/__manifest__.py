@@ -7,7 +7,7 @@
         Put decoration according to ticket stage: 
         red for unattended tickets, green for closed tickets.
     """,
-    "version": "12.0.1.0.0",
+    "version": "15.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
