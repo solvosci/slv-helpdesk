@@ -6,16 +6,16 @@
         <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='team_id']" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
+                <attribute name="required">1</attribute>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
+                <attribute name="required">1</attribute>
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
+                <attribute name="required">1</attribute>
             </xpath>
             <xpath expr="//field[@name='category_id']" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
+                <attribute name="required">1</attribute>
             </xpath>
         </field>
     </record>
@@ -26,7 +26,7 @@
         <field name="inherit_id" ref="helpdesk_type.view_helpdesk_ticket_form_type"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='type_id']" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
+                <attribute name="required">1</attribute>
             </xpath>
         </field>
     </record>
