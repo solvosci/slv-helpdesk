@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_helpdesk_ticket_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='channel_id']" position="after">
+                <field name="equipment_ids" string="Equipments" widget="many2many_tags" domain="[('allow_ticket', '=', True)]" groups="base_maintenance_group.group_maintenance_user"/>
+            </xpath> 
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_tree" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.tree</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number']" position="after">
+                <field name="has_equipment" groups="base_maintenance_group.group_maintenance_user" optional="show"/>
+            </xpath> 
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_search" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.helpdesk_ticket_view_search"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Name Equipment" filter_domain="[('equipment_ids.name', 'ilike', self)]"/>
+                <filter
+                    string="Has Equipment"
+                    name="has_equipment"
+                    domain="[('has_equipment', '=', True )]"
+                    groups="maintenance.group_equipment_manager"
+                />
+            </search>
+    </field>
+    </record>
+    
+</odoo>
