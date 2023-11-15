@@ -5,7 +5,7 @@
     "summary": """
         Adds a custom email reminder of ticket inactivity in Helpdesk.
     """,
-    "version": "12.0.2.1.0",
+    "version": "13.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
@@ -14,8 +14,8 @@
         "helpdesk_mgmt",
     ],
     "data": [
-        "views/helpdesk_ticket_views.xml",
-        "data/mail_template_data.xml",
-        "data/ir_cron_data.xml",
+        # "views/helpdesk_ticket_views.xml",
+        # "data/mail_template_data.xml",
+        # "data/ir_cron_data.xml",
     ],
 }
