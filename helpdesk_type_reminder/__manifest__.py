@@ -6,7 +6,7 @@
         Sets default reminder active flag for a 
         ticket depending on the selected type
     """,
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
@@ -16,6 +16,6 @@
         "helpdesk_type",
     ],
     "data": [
-        "views/helpdesk_ticket_views.xml",
+        # "views/helpdesk_ticket_views.xml",
     ],
 }

@@ -6,7 +6,7 @@ from odoo import fields, models, api
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
       
-    @api.onchange('type_id')
-    def _onchange_type_id(self):
-        if self.type_id:
-            self.reminder_active = self.type_id.reminder_active
+    # @api.onchange('type_id')
+    # def _onchange_type_id(self):
+    #     if self.type_id:
+    #         self.reminder_active = self.type_id.reminder_active
