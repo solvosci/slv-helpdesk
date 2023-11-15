@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="ticket_type_view_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.type.view.form (reminder_active)</field>
+        <field name="model">helpdesk.ticket.type</field>
+        <field name="inherit_id" ref="helpdesk_type.helpdesk_ticket_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='team_ids']" position="after">
+                <field name="reminder_active"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ticket_type_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.type.view.tree (reminder_active)</field>
+        <field name="model">helpdesk.ticket.type</field>
+        <field name="inherit_id" ref="helpdesk_type.helpdesk_ticket_type_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="reminder_active"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ticket_type_search_view" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.type.view.search (reminder_active)</field>
+        <field name="model">helpdesk.ticket.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <separator/>
+                <filter string="With Reminder Include" 
+                        name="reminder_active_true" 
+                        domain="[('reminder_active','=', True)]"/>
+                <filter string="Without Reminder Include" 
+                        name="reminder_active_false" 
+                        domain="[('reminder_active','=', False)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>
