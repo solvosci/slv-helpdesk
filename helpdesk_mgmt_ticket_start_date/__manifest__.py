@@ -5,7 +5,7 @@
     "summary": """
         Add an editable Start Date field that initializes with today's date
     """,
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
@@ -14,7 +14,7 @@
         "helpdesk_mgmt",
     ],
     "data": [
-        "views/helpdesk_ticket_views.xml",
+        # "views/helpdesk_ticket_views.xml",
     ],
-    "post_init_hook": "post_init_hook",
+    # "post_init_hook": "post_init_hook",
 }

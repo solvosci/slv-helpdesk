@@ -9,11 +9,11 @@ class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
     start_date = fields.Datetime(track_visibility="onchange")
-    
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if not res.start_date:
-            res.start_date = res.create_date
 
-        return res
+    # @api.model
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     if not res.start_date:
+    #         res.start_date = res.create_date
+
+    #     return res
