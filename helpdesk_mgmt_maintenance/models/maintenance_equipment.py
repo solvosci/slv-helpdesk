@@ -6,7 +6,7 @@ from odoo import fields, models
 class MaintenanceEquipment(models.Model):
     _inherit = "maintenance.equipment"
 
-    ticket_ids = fields.Many2many('helpdesk.ticket', string="Tickets")
+    ticket_ids = fields.Many2many('helpdesk.ticket', string="Tickets",  relation="helpdesk_ticket_maintenance_equipment_rel", column1="maintenance_equipment_id", column2="helpdesk_ticket_id", copy=False)
 
     allow_ticket = fields.Boolean(string="Allow Tickets", default=False)
 
