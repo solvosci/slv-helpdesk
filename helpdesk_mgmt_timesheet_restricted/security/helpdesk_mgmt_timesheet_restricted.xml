@@ -3,8 +3,6 @@
     <data noupdate="0">
         <record id="group_helpdesk_timesheet_restricted" model="res.groups">
             <field name="name">Don't show time data in timesheets and tickets</field>
-            <field name="category_id" 
-                   ref="helpdesk_mgmt_timesheet_readonly.module_helpdesk_timesheet_category"/>
         </record>
     </data>
 </odoo>

@@ -5,13 +5,13 @@
     "summary": """
        Adds group that cannot see time data in the timesheet and tickets.
     """,
-    "version": "12.0.1.0.0",
+    "version": "15.0.1.0.0",
     "license": "LGPL-3",
     "category": "After-Sales",
     "author": "Solvos",
     "website": "https://github.com/solvosci/slv-helpdesk",
     "depends": [
-        "helpdesk_mgmt_timesheet_readonly",
+        "helpdesk_mgmt_timesheet"
     ],
     "data": [
         "security/helpdesk_mgmt_timesheet_restricted.xml",
