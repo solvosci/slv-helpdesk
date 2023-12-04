@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    
 
     <record id="helpdesk_ticket_timesheet_view_form_addline" model="ir.ui.view">
         <field name="name">helpdesk.ticket.timesheet.view.form (addline)</field>
         <field name="model">helpdesk.ticket</field>
         <field name="inherit_id" ref="helpdesk_mgmt_timesheet.timesheet_helpdesk_ticket_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='timesheet_ids']" position="before">
+            <xpath expr="//button[@name='assign_to_me']" position="after" >
                 <button string="Create new timesheet"
                     name="%(helpdesk_mgmt_timesheet_addline.action_new_timesheet)d"
                     class="oe_edit_only btn-primary"
                     type="action"
-                    context="{'default_ticket_id': id, 'default_project_id': project_id, 'default_task_id': task_id}"/>
+                    context="{'default_ticket_id': id, 'default_project_id': project_id, 'default_task_id': task_id}"
+                    attrs="{'invisible' : [('id', '=', False)]}"/>
             </xpath>
         </field>
     </record>
