@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="hr_timesheet_line_form_addline" model="ir.ui.view">
-        <field name="name">helpdesk.ticket.timesheet.view.form (addline)</field>
+        <field name="name">hr.timesheet.view.form (addline)</field>
         <field name="model">account.analytic.line</field>
         <field name="arch" type="xml"> 
             <form string="New Timesheet">

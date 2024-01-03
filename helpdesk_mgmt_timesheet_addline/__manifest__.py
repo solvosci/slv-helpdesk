@@ -14,7 +14,7 @@
         "helpdesk_mgmt_timesheet",
     ],
     "data": [
-        "views/helpdesk_ticket_addline_view.xml",
-        "views/helpdesk_ticket_timesheet_views.xml",
+        "views/hr_timesheet_views.xml",
+        "views/helpdesk_ticket_views.xml",
     ],
 }

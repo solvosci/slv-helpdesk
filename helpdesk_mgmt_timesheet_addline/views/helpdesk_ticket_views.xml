@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
-    <record id="helpdesk_ticket_timesheet_view_form_addline" model="ir.ui.view">
-        <field name="name">helpdesk.ticket.timesheet.view.form (addline)</field>
+    <record id="helpdesk_ticket_view_form_addline" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.form (addline)</field>
         <field name="model">helpdesk.ticket</field>
         <field name="inherit_id" ref="helpdesk_mgmt_timesheet.timesheet_helpdesk_ticket_view_form"/>
         <field name="arch" type="xml">
