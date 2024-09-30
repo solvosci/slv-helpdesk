@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="helpdesk_ticket_action_form" model="ir.actions.act_window">
+        <field name="name">Helpdesk Ticket</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="helpdesk_ticket_form_view_inherit" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.view</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="invoice_id"
+                        domain="[('type','in',['out_invoice','in_refund']),('state','=','posted')]"
+                        groups="account.group_account_invoice"
+                    />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

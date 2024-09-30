@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_move_form_view" model="ir.ui.view">
+        <field name="name">account.move.form.view</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_draft']" position="after">
+                <button name="create_ticket"
+                        type="object"
+                        string="Create ticket"
+                        groups="helpdesk_mgmt.group_helpdesk_user"
+                        attrs="{'invisible': ['|',('type', 'not in', ['out_invoice','in_refund']),('state','!=','posted')]}"
+                />
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_tickets"
+                        type="object"
+                        class="oe_stat_button"
+                        string="Tickets"
+                        groups="helpdesk_mgmt.group_helpdesk_user"
+                        attrs="{'invisible': [('count_ticket_ids','=',0)]}"
+                        icon="fa-file-text-o"
+                        >
+                    <field name="count_ticket_ids" />
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
