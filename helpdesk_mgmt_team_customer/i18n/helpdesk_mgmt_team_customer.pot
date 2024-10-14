@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* helpdesk_mgmt_team_customer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-14 15:35+0000\n"
+"PO-Revision-Date: 2024-10-14 15:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mgmt_team_customer
+#: model:ir.model,name:helpdesk_mgmt_team_customer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_customer
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_team_customer.view_helpdesk_ticket_team_search_inherit
+msgid "Default Partner"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_customer
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_customer.field_helpdesk_ticket_team__default_partner_id
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_team_customer.view_helpdesk_ticket_team_search_inherit
+msgid "Default partner"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_customer
+#: model:ir.model,name:helpdesk_mgmt_team_customer.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_customer
+#: model:ir.model,name:helpdesk_mgmt_team_customer.model_helpdesk_ticket_team
+msgid "Helpdesk Ticket Team"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_customer
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_customer.field_res_partner__team_id
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_customer.field_res_users__team_id
+msgid "Team"
+msgstr ""

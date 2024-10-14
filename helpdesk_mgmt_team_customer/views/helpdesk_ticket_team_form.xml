@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_helpdesk_team_form_inherit" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.view.form.inherit</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.view_helpdesk_team_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='show_in_portal']" position="after">
+                <field name="default_partner_id" />                
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_team_tree_inherit" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.view.tree.inherit</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.view_helpdesk_team_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_ids']" position="after">
+                <field name="default_partner_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_team_search_inherit" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.search.inherit</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.view_helpdesk_ticket_team_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_ids']" position="after">
+                <field name="default_partner_id" string="Default partner"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='company']" position="after">
+                <filter name="default_partner" string="Default Partner" context="{'group_by': 'default_partner_id'}" />
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
