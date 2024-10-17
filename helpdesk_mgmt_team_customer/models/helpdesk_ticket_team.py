@@ -1,11 +1,16 @@
 #    Copyright (C) 2024 Solvos Consultoría Informática <www.solvos.es>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import models, fields
+from odoo import models, fields, api
 
 class HelpdeskTicketTeam(models.Model):
     _inherit="helpdesk.ticket.team"
 
     default_partner_id=fields.Many2one(
         comodel_name="res.partner",
-        string="Default partner"
+        domain="[('is_company', '=' , True)]"
+    )
+
+    allowed_partner_ids=fields.Many2many(
+        comodel_name="res.partner",
+        domain="[('is_company', '=', True)]",
     )
