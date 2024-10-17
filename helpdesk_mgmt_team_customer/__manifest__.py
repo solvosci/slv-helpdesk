@@ -14,6 +14,5 @@
     ],
     "data": [
         "views/helpdesk_ticket_team_views.xml",
-        "views/helpdesk_ticket_views.xml"
     ]
 }
