@@ -7,5 +7,10 @@ class HelpdeskTicketTeam(models.Model):
 
     default_partner_id=fields.Many2one(
         comodel_name="res.partner",
-        string="Default partner"
+        domain="[('is_company', '=' , True)]"
+    )
+
+    allowed_partner_ids=fields.Many2many(
+        comodel_name="res.partner",
+        domain="[('is_company', '=', True)]",
     )
