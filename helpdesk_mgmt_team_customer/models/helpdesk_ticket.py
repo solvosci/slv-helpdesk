@@ -14,5 +14,5 @@ class HelpdeskTicket(models.Model):
             res_domain = res.setdefault("domain", {})
             res_domain.update({"partner_id": [("id", "in", (self.team_id.allowed_partner_ids | self.team_id.default_partner_id).ids)]})
         else:
-            res["domain"] = {"partner_id": [("is_company","=",True)]}
+            res["domain"] = {"partner_id": []}
         return res
