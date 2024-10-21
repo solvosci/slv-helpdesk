@@ -9,3 +9,13 @@ class HelpdeskTicket(models.Model):
     def _onchange_team_id(self):
         if self.team_id.default_partner_id:
             self.partner_id = self.team_id.default_partner_id
+        res = {}
+        if self.team_id.is_unique_partner:
+            res_domain = res.setdefault("domain", {})
+            res_domain.update({"partner_id": [("id", "=", self.team_id.default_partner_id.id)]})
+        elif self.team_id.allowed_partner_ids:
+            res_domain = res.setdefault("domain", {})
+            res_domain.update({"partner_id": [("id", "in", (self.team_id.allowed_partner_ids | self.team_id.default_partner_id).ids)]})
+        else:
+            res["domain"] = {"partner_id": []}
+        return res
