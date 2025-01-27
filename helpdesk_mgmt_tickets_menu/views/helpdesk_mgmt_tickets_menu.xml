@@ -4,7 +4,7 @@
     <record id="action_my_helpdesk_tickets" model="ir.actions.act_window">
         <field name="name">My Tickets</field>
         <field name="res_model">helpdesk.ticket</field>
-        <field name="view_mode">kanban,tree,pivot</field>
+        <field name="view_mode">kanban,tree,pivot,form</field>
         <field name="domain">[('user_id', '=', uid)]</field>
     </record>
 
