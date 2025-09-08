@@ -1,0 +1,8 @@
+<odoo>
+    <template id="portal_create_ticket_mobile_attachments"
+        inherit_id="helpdesk_mgmt.portal_create_ticket">
+        <xpath expr="//input[@id='attachment']/parent::div" position="after">
+            <div id="mobile-attachments"></div>
+        </xpath>
+    </template>
+</odoo>
