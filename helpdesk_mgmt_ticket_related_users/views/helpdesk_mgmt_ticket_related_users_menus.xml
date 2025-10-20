@@ -1,0 +1,18 @@
+<odoo>
+  <record id="helpdesk_my_related_tickets_action" model="ir.actions.act_window">
+    <field name="name">My related tickets</field>
+    <field name="res_model">helpdesk.ticket</field>
+    <field name="view_mode">kanban,tree,pivot,form</field>
+    <field name="domain">[('related_user_ids', 'in', [uid])]</field>
+    <field name="context">{
+      'default_related_user_ids': [(4, uid)],
+      'default_user_id': False,
+    }</field>
+  </record>
+
+  <menuitem id="helpdesk_menu_my_related_tickets"
+    name="My related tickets"
+    parent="helpdesk_mgmt.helpdesk_ticket_menu"
+    action="helpdesk_my_related_tickets_action"
+    sequence="15"/>
+</odoo>

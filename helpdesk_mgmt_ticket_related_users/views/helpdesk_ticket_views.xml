@@ -1,0 +1,67 @@
+<odoo>
+  <record id="helpdesk_ticket_search_inherit_related" model="ir.ui.view">
+    <field name="name">helpdesk.ticket.search.my.related (in helpdesk_mgmt_related_users)</field>
+    <field name="model">helpdesk.ticket</field>
+    <field name="inherit_id" ref="helpdesk_mgmt.helpdesk_ticket_view_search"/>
+    <field name="arch" type="xml">
+      <xpath expr="//search" position="inside">
+        <field name="related_user_ids" />
+      </xpath>
+      <xpath expr="//search/filter[@name='my_followed_tickets']" position="after">
+        <filter string="My Related Tickets" name="my_related"
+                domain="[('related_user_ids', 'in', [uid])]"/>
+      </xpath>
+      <xpath expr="//search/group/filter[@name='group_tag']" position="after">
+        <filter
+            string="Related Users"
+            name="group_related"
+            domain="[]"
+            context="{'group_by':'related_user_ids'}"
+        />
+      </xpath>
+    </field>
+  </record>
+
+  <record id="helpdesk_ticket_form_inherit_related" model="ir.ui.view">
+    <field name="name">helpdesk.ticket.view.form.related.users (in helpdesk_mgmt_related_users)</field>
+    <field name="model">helpdesk.ticket</field>
+    <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group/field[@name='user_id']" position="after">
+        <field name="related_user_ids"
+          widget="many2many_avatar_user"
+          options="{'no_create': True}"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="helpdesk_ticket_tree_inherit_related" model="ir.ui.view">
+    <field name="name">helpdesk.ticket.view.tree.related.users (in helpdesk_mgmt_related_users)</field>
+    <field name="model">helpdesk.ticket</field>
+    <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//tree/field[@name='user_id']" position="after">
+        <field name="related_user_ids"
+          widget="many2many_avatar_user"
+          optional="hidden"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="helpdesk_ticket_kanban_inherit_related" model="ir.ui.view">
+    <field name="name">helpdesk.ticket.kanban.related.users (in helpdesk_mgmt_related_users)</field>
+    <field name="model">helpdesk.ticket</field>
+    <field name="inherit_id" ref="helpdesk_mgmt.view_helpdesk_ticket_kanban"/>
+    <field name="arch" type="xml">
+      <xpath expr="//kanban" position="inside">
+        <field name="related_user_ids"/>
+      </xpath>
+      <xpath expr="//div/field[@name='user_id']" position="attributes">
+          <attribute name="style">font-size:20px;</attribute>
+      </xpath>
+      <xpath expr="//div/field[@name='user_id']" position="after">
+          <field name="related_user_ids" widget="many2many_avatar_user" readonly="1"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>
