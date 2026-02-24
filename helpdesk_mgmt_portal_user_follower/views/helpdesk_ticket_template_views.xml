@@ -1,0 +1,27 @@
+<odoo>
+    <template id="portal_create_ticket" inherit_id="helpdesk_mgmt.portal_create_ticket">
+        <xpath expr="//div[@id='attachment_information']/../.." position="after">
+            <div class="form-group">
+                <label
+                    class="col-md-3 col-sm-4 control-label"
+                    for="portal_user_ids"
+                >Followers</label>
+
+                <div class="col-md-7 col-sm-8">
+                    <select
+                        class="form-control"
+                        id="portal_user_ids"
+                        name="portal_user_ids[]"
+                        multiple="multiple"
+                    >
+                        <t t-foreach="request.env['res.users'].sudo().search([('share','=',False)])" t-as="u">
+                            <option t-att-value="u.id">
+                                <t t-esc="u.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
