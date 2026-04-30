@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_helpdesk_ticket_form_type" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form (in helpdesk_type_sec_issue)</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_type.view_helpdesk_ticket_form_type" />
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="is_security_issue" invisible="1" />
+                <field
+                    name="danger_level"
+                    attrs="{
+                        'invisible' : [('is_security_issue', '=', False)],
+                        'required' : [('is_security_issue', '=', True)],
+                    }"
+                />
+                <field
+                    name="impact"
+                    attrs="{
+                        'invisible' : [('is_security_issue', '=', False)],
+                        'required' : [('is_security_issue', '=', True)],
+                    }"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_view_search" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.view.search (in helpdesk_type_sec_issue)</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_type.helpdesk_ticket_view_search" />
+        <field name="arch" type="xml">
+            <field name="type_id" position="after">
+                <field name="danger_level" />
+                <field name="impact" />
+            </field>
+            <filter name="group_type" position="after">
+                <filter
+                    string="Danger Level"
+                    name="group_danger_level"
+                    domain="[]"
+                    context="{'group_by':'danger_level'}"
+                />                
+                <filter
+                    string="Impact"
+                    name="group_impact"
+                    domain="[]"
+                    context="{'group_by':'impact'}"
+                />                
+            </filter>
+        </field>
+    </record>
+</odoo>
