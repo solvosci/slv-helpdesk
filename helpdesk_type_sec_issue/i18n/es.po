@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* helpdesk_type_sec_issue
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-30 16:28+0000\n"
+"PO-Revision-Date: 2026-04-30 18:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__critical
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__critical
+msgid "Critical"
+msgstr "Crítico"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields,field_description:helpdesk_type_sec_issue.field_helpdesk_ticket__danger_level
+#: model_terms:ir.ui.view,arch_db:helpdesk_type_sec_issue.helpdesk_ticket_view_search
+msgid "Danger Level"
+msgstr "Peligrosidad"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model,name:helpdesk_type_sec_issue.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket Helpdesk"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model,name:helpdesk_type_sec_issue.model_helpdesk_ticket_type
+msgid "Helpdesk Ticket Type"
+msgstr "Tipo de tickets del Helpdesk"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__high
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__high
+msgid "High"
+msgstr "Alto"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields,field_description:helpdesk_type_sec_issue.field_helpdesk_ticket__impact
+#: model_terms:ir.ui.view,arch_db:helpdesk_type_sec_issue.helpdesk_ticket_view_search
+msgid "Impact"
+msgstr "Impacto"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__low
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__low
+msgid "Low"
+msgstr "Bajo"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__medium
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__medium
+msgid "Medium"
+msgstr "Medio"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields,field_description:helpdesk_type_sec_issue.field_helpdesk_ticket__is_security_issue
+#: model:ir.model.fields,field_description:helpdesk_type_sec_issue.field_helpdesk_ticket_type__security_issue
+msgid "Used to register security issues"
+msgstr "Usado para registrar incidencias de seguridad"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__very_high
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__very_high
+msgid "Very High"
+msgstr "Muy alto"
+
+#. module: helpdesk_type_sec_issue
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__danger_level__wo_impact
+#: model:ir.model.fields.selection,name:helpdesk_type_sec_issue.selection__helpdesk_ticket__impact__wo_impact
+msgid "Without Impact"
+msgstr "Sin impacto"
