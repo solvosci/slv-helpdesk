@@ -1,0 +1,80 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* helpdesk_mgmt_ticket_reminder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-19 10:44+0000\n"
+"PO-Revision-Date: 2021-01-19 10:44+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model:mail.template,body_html:helpdesk_mgmt_ticket_reminder.email_template_ticket_reminder
+msgid "\n"
+"        <p>Hello ${object.user_id and object.user_id.name or ''},</p>\n"
+"        <p>The ticket <strong>${object.number} - ${object.name}</strong> did not have any activity since at least 7 days.</p>\n"
+"        %if object.write_date:\n"
+"        <p>The last update date was : </p><p><i>${object.write_date}</i>\n"
+"        %endif\n"
+"        %if not object.write_date:\n"
+"        <p>The creation date was : </p><p><i>${object.create_date}</i>\n"
+"        %endif\n"
+"        </p><p>Thank you!</p>\n"
+"        "
+msgstr "\n"
+"        <p>Hola, ${object.user_id and object.user_id.name or ''},</p>\n"
+"        <p>El ticket <strong>${object.number} - ${object.name}</strong> no ha tenido actividad en los últimos 7 días.</p>\n"
+"        %if object.write_date:\n"
+"        <p>La última actualización fue el </p><p><i>${object.write_date}</i>\n"
+"        %endif\n"
+"        %if not object.write_date:\n"
+"        <p>La fecha de creación fue el </p><p><i>${object.create_date}</i>\n"
+"        %endif\n"
+"        </p><p>¡Muchas gracias!</p>\n"
+"        "
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: code:addons/helpdesk_mgmt_ticket_reminder/models/helpdesk_ticket.py:42
+#, python-format
+msgid "<p>Reminder sent on %s</p>"
+msgstr "<p>Recordatorio enviado el %s</p>"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model:ir.model,name:helpdesk_mgmt_ticket_reminder.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model:ir.model.fields,field_description:helpdesk_mgmt_ticket_reminder.field_helpdesk_ticket__reminder_active
+msgid "Reminder include"
+msgstr "Incluido en recordatorio"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model:mail.template,subject:helpdesk_mgmt_ticket_reminder.email_template_ticket_reminder
+msgid "Reminder: Helpdesk Ticket ${object.number} from ${object.partner_name}"
+msgstr "Recordatorio: Ticket de Helpdesk ${object.number} de ${object.partner_name}"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model:ir.actions.server,name:helpdesk_mgmt_ticket_reminder.ir_cron_ticket_reminder_ir_actions_server
+#: model:ir.cron,cron_name:helpdesk_mgmt_ticket_reminder.ir_cron_ticket_reminder
+#: model:ir.cron,name:helpdesk_mgmt_ticket_reminder.ir_cron_ticket_reminder
+msgid "Ticket: Activity reminder"
+msgstr "Ticket: recordatorio de actividad"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_ticket_reminder.helpdesk_ticket_view_search
+msgid "With reminder"
+msgstr "Con recordatorio"
+
+#. module: helpdesk_mgmt_ticket_reminder
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_ticket_reminder.helpdesk_ticket_view_search
+msgid "Without reminder"
+msgstr "Sin recordatorio"
+
