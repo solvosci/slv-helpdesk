@@ -30,7 +30,7 @@
         <field name="model">helpdesk.ticket</field>
         <field name="inherit_id" ref="helpdesk_type.helpdesk_ticket_view_search" />
         <field name="arch" type="xml">
-            <field name="type_id" position="after">
+            <field name="stage_id" position="after">
                 <field name="danger_level" />
                 <field name="impact" />
             </field>
