@@ -8,7 +8,7 @@
     """,
     "author": "Solvos",
     "license": "LGPL-3",
-    "version": "13.0.1.0.0",
+    "version": "12.0.1.0.0",
     "category": "After-Sales",
     "website": "https://github.com/solvosci/slv-helpdesk",
     "depends": ["helpdesk_type"],
