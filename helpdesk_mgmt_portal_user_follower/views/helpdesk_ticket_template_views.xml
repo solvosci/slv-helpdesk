@@ -14,7 +14,8 @@
                         name="portal_user_ids[]"
                         multiple="multiple"
                     >
-                        <t t-foreach="request.env['res.users'].sudo().search([('share','=',False)])" t-as="u">
+                        <t t-set="domain" t-value="[('share','=',False)] if not request.env.user.company_id.helpdesk_show_portal_users else []"/>
+                        <t t-foreach="request.env['res.users'].sudo().search(domain)" t-as="u">
                             <option t-att-value="u.id">
                                 <t t-esc="u.name"/>
                             </option>

@@ -1,0 +1,24 @@
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='show_categories_form']" position="after">
+                <setting
+                    string="Followers selection at ticket creation - Also show portal users"
+                    help="In addition to internal users, portal users will be available in the 'Followers' field."
+                >
+                    <div class="mt16">
+                        <div class="content-group">
+                            <div>
+                                <field name="helpdesk_show_portal_users" string="Show portal users"/>
+                                <label for="helpdesk_show_portal_users"/>
+                            </div>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
