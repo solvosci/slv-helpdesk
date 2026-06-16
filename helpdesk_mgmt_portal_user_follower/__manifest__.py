@@ -8,12 +8,13 @@
     """,
     "author": "Solvos",
     "license": "AGPL-3",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.1.0",
     'category': "Helpdesk",
     "website": "https://github.com/solvosci/slv-helpdesk",
     "depends": ["helpdesk_mgmt"],
     "data": [
-        "views/helpdesk_ticket_template_views.xml"
+        "views/helpdesk_ticket_template_views.xml",
+        "views/res_config_settings_views.xml",
     ],
     "assets": {
         "web.assets_frontend": [

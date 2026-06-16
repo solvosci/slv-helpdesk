@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 08:02+0000\n"
-"PO-Revision-Date: 2026-02-25 08:02+0000\n"
+"POT-Creation-Date: 2026-06-19 08:13+0000\n"
+"PO-Revision-Date: 2026-06-19 08:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,35 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: helpdesk_mgmt_portal_user_follower
+#: model:ir.model,name:helpdesk_mgmt_portal_user_follower.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: helpdesk_mgmt_portal_user_follower
+#: model:ir.model,name:helpdesk_mgmt_portal_user_follower.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
+
+#. module: helpdesk_mgmt_portal_user_follower
 #: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_portal_user_follower.portal_create_ticket
 msgid "Followers"
 msgstr "Seguidores"
+
+#. module: helpdesk_mgmt_portal_user_follower
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_portal_user_follower.res_config_settings_view_form
+msgid "Followers selection at ticket creation - Also show portal users"
+msgstr ""
+"Selección de seguidores al crear un ticket - También mostrar usuarios del "
+"portal"
+
+#. module: helpdesk_mgmt_portal_user_follower
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_portal_user_follower.res_config_settings_view_form
+msgid ""
+"In addition to internal users, portal users will be available in the "
+"'Followers' field."
+msgstr ""
+"Además de los usuarios internos, los usuarios del portal estarán disponibles"
+" en el campo 'Seguidores'."
 
 #. module: helpdesk_mgmt_portal_user_follower
 #. odoo-javascript
@@ -26,3 +52,14 @@ msgstr "Seguidores"
 #, python-format
 msgid "Select followers"
 msgstr "Seleccione seguidores"
+
+#. module: helpdesk_mgmt_portal_user_follower
+#: model:ir.model.fields,field_description:helpdesk_mgmt_portal_user_follower.field_res_company__helpdesk_show_portal_users
+#: model:ir.model.fields,field_description:helpdesk_mgmt_portal_user_follower.field_res_config_settings__helpdesk_show_portal_users
+msgid "Show Portal Users in Helpdesk Tickets"
+msgstr "Mostrar usuarios del portal en tickets de portal"
+
+#. module: helpdesk_mgmt_portal_user_follower
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt_portal_user_follower.res_config_settings_view_form
+msgid "Show portal users"
+msgstr "Mostrar usuarios del portal"
