@@ -1,0 +1,1 @@
+When a ticket is created from the portal and the team field is set as visible in the system configuration, the ticket should be automatically assigned to an internal user who belongs to the team selected by the portal user.
