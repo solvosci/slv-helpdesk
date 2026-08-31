@@ -1,0 +1,416 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* helpdesk_mgmt_team_overview
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-01 07:01+0000\n"
+"PO-Revision-Date: 2026-09-01 07:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "%s% closed"
+msgstr "%s% cerrado"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "%s% open"
+msgstr "%s% abierto"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "All Tickets: %s"
+msgstr "Todos los tickets: %s"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "April"
+msgstr "Abril"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "August"
+msgstr "Agosto"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-python
+#: code:addons/helpdesk_mgmt_team_overview/models/helpdesk_ticket.py:0
+#, python-format
+msgid "CHECK (start_date <= end_date)"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Clean selection"
+msgstr "Limpiar selección"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "Closed Tickets"
+msgstr "Tickets cerrados"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Contacts"
+msgstr "Contactos"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "December"
+msgstr "Diciembre"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket__end_date
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Extra"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "Extra Objectives"
+msgstr "Objetivos extra"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket__extra_objetive
+msgid "Extra Objetive"
+msgstr "Objetivo extra"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Extra Objetives"
+msgstr "Objetivos extra"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "February"
+msgstr "Febrero"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Fri"
+msgstr "Vie"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#: model:ir.ui.menu,name:helpdesk_mgmt_team_overview.helpdesk_owl_calendar_menu
+#, python-format
+msgid "Gantt Goals"
+msgstr "Calendario de objetivos"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.actions.client,name:helpdesk_mgmt_team_overview.action_helpdesk_owl_calendar_js
+msgid "Helpdesk Calendar"
+msgstr ""
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model,name:helpdesk_mgmt_team_overview.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket Helpdesk"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model,name:helpdesk_mgmt_team_overview.model_helpdesk_ticket_team
+msgid "Helpdesk Ticket Team"
+msgstr "Equipo de ticket Helpdesk"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "January"
+msgstr "Enero"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "July"
+msgstr "Julio"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "June"
+msgstr "Junio"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Loading..."
+msgstr "Cargando..."
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Main"
+msgstr "Principal"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "Main Objectives"
+msgstr "Objetivos principales"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Main Objetives"
+msgstr "Objetivos principales"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "March"
+msgstr "Marzo"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "May"
+msgstr "Mayo"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Mon"
+msgstr "Lun"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Month"
+msgstr "Mes"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Monthly view by user"
+msgstr "Vista mensual por usuario"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "No contacts found"
+msgstr "No se encontraron contactos"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "November"
+msgstr "Noviembre"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "October"
+msgstr "Octubre"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Open"
+msgstr "Abierto"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "Opened Tickets"
+msgstr "Tickets abiertos"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Sat"
+msgstr "Sáb"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Search contact..."
+msgstr "Buscar contacto..."
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "September"
+msgstr "Septiembre"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket__start_date
+msgid "Start Date"
+msgstr "Fecha Inicial"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Sun"
+msgstr "Dom"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#: model:ir.actions.client,name:helpdesk_mgmt_team_overview.action_owl_tree_helpdesk_personals_js
+#: model:ir.ui.menu,name:helpdesk_mgmt_team_overview.menu_owl_helpdesk_personals_js
+#, python-format
+msgid "Team Performance"
+msgstr "Rendimiento de equipo"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Teams"
+msgstr "Equipos"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.constraint,message:helpdesk_mgmt_team_overview.constraint_helpdesk_ticket_valid_dates
+msgid "The start date must be earlier than or equal to the end date."
+msgstr "La fecha de inicio debe ser anterior o igual a la fecha fin."
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "There are no tickets available during this period."
+msgstr "No hay tickets disponibles durante este periodo."
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Thu"
+msgstr "Jue"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket_team__ticket_control
+msgid "Ticket Control"
+msgstr "Control de tickets"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Tue"
+msgstr "Mar"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "User"
+msgstr "Usuario"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "View All"
+msgstr "Ver todos"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "View All Tickets"
+msgstr "Ver todos los tickets"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Wed"
+msgstr "Mié"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Week"
+msgstr "Semana"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
+#, python-format
+msgid "Week ${startLabel} - ${endLabel}"
+msgstr "Semana ${startLabel} - ${endLabel}"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Weekly view by user"
+msgstr "Vista semanal por usuario"

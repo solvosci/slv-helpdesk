@@ -1,0 +1,738 @@
+:root {
+    --hc-border: #e8eaed;
+    --hc-border-strong: #d1d5db;
+    --hc-bg-header: #ffffff;
+    --hc-bg-page: #f6f7f9;
+    --hc-text-muted: #6b7280;
+    --hc-text: #1a1d29;
+    // --hc-accent y --hc-accent-dark se dejan comentados a propósito:
+    // se heredan del tema de Odoo. Descomentar solo si hace falta forzar un color propio.
+    // --hc-accent: #5b6cff;
+    // --hc-accent-dark: #4451d6;
+    --hc-accent-soft: rgba(91, 108, 255, 0.1);
+    --hc-ticket-shadow: 0 2px 4px rgba(16, 24, 40, 0.12);
+    --hc-ticket-shadow-hover: 0 6px 16px rgba(16, 24, 40, 0.28);
+    --hc-radius: 8px;
+    --hc-radius-sm: calc(var(--hc-radius) - 2px);
+    --hc-radius-lg: 12px;
+    --hc-today: #ef4444;
+    --hc-popover-shadow: 0 8px 20px rgba(16, 24, 40, 0.18);
+    // Colores de estado, reutilizados por las barras de ticket, la barra
+    // de progreso del usuario y el badge de estado del tooltip.
+    --hc-status-open: #afafaf;
+    --hc-status-closed: #8DBA92;
+}
+
+.o_helpdesk_owl_calendar {
+    padding: 1.5rem;
+    color: var(--hc-text);
+    background: var(--hc-bg-page);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* ---------- Cabecera / controles ---------- */
+
+.o_helpdesk_owl_calendar_header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    background: #fff;
+    padding: 1.1rem 1.4rem;
+    border-radius: var(--hc-radius-lg);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 6px rgba(16, 24, 40, 0.04);
+    height: 68px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    overflow: visible;
+    position: relative;
+    z-index: 50;
+}
+
+.o_helpdesk_owl_calendar_header > div:first-child {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.o_helpdesk_owl_calendar_title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_helpdesk_owl_calendar_subtitle {
+    color: var(--hc-text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_helpdesk_owl_calendar_controls {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap !important;
+    flex-shrink: 0;
+}
+
+/* Grupo de navegación ‹ › y toggle Semana/Mes comparten el mismo "pill" contenedor */
+.o_helpdesk_owl_calendar_nav,
+.o_ec_period_toggle {
+    display: inline-flex;
+    align-items: center;
+    background: var(--hc-bg-page);
+    border-radius: var(--hc-radius);
+    padding: 2px;
+    gap: 2px;
+}
+
+.o_helpdesk_owl_calendar_nav_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    border-radius: var(--hc-radius-sm);
+    color: var(--hc-text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.o_helpdesk_owl_calendar_nav_btn:hover {
+    background: #fff;
+    color: var(--hc-accent);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+.o_helpdesk_owl_calendar_nav_btn:active {
+    transform: scale(0.92);
+}
+
+.o_helpdesk_owl_calendar_select,
+.o_helpdesk_owl_calendar_year_input {
+    border: 1px solid var(--hc-border-strong);
+    border-radius: var(--hc-radius);
+    padding: 0.35rem 0.65rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--hc-text);
+    background: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 120px;
+}
+
+.o_helpdesk_owl_calendar_select:focus,
+.o_helpdesk_owl_calendar_year_input:focus {
+    outline: none;
+    border-color: var(--hc-accent);
+    box-shadow: 0 0 0 3px var(--hc-accent-soft);
+}
+
+.o_helpdesk_owl_calendar_year_input {
+    width: 5rem !important;
+}
+
+/* ---------- Contenedor con scroll ---------- */
+
+.o_helpdesk_owl_calendar_table_container {
+    border: 1px solid var(--hc-border);
+    border-radius: var(--hc-radius-lg);
+    overflow: auto;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 6px rgba(16, 24, 40, 0.04);
+    flex: 1;
+    min-height: 0; /* imprescindible para que el scroll interno funcione dentro de un flex item */
+}
+
+.o_helpdesk_owl_calendar_table_container::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+.o_helpdesk_owl_calendar_table_container::-webkit-scrollbar-thumb {
+    background: var(--hc-border-strong);
+    border-radius: 10px;
+}
+
+.o_helpdesk_owl_calendar_table_container::-webkit-scrollbar-thumb:hover {
+    background: #9aa1ab;
+}
+
+/* ---------- Tabla ---------- */
+
+.o_helpdesk_owl_calendar_table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    margin: 0;
+}
+
+.o_helpdesk_owl_calendar_table th,
+.o_helpdesk_owl_calendar_table td {
+    border-bottom: 1px solid var(--hc-border);
+    border-right: 1px solid var(--hc-border);
+    padding: 0.5rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.o_helpdesk_owl_calendar_table th:first-child,
+.o_helpdesk_owl_calendar_table td:first-child {
+    width: 200px;
+    text-align: left;
+    border-right: 1px solid var(--hc-border-strong);
+    padding-left: 1rem;
+    /* Primera columna (usuario) fija al hacer scroll horizontal */
+    position: sticky;
+    left: 0;
+    background: #fff;
+    z-index: 1;
+}
+
+/* Cabecera fija al hacer scroll vertical */
+.o_helpdesk_owl_calendar_table thead th {
+    background: var(--hc-bg-header);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    font-weight: 600;
+    color: var(--hc-text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: inset 0 -1px 0 var(--hc-border-strong);
+}
+
+.o_helpdesk_owl_calendar_table thead th:first-child {
+    z-index: 3;
+    box-shadow: inset 0 -1px 0 var(--hc-border-strong), 2px 0 4px rgba(16, 24, 40, 0.04);
+}
+
+.o_helpdesk_owl_calendar_table td:first-child {
+    box-shadow: 2px 0 4px rgba(16, 24, 40, 0.04);
+}
+
+/* Zebra sutil por fila de usuario */
+.o_helpdesk_owl_calendar_table tbody tr:nth-child(even) td,
+.o_helpdesk_owl_calendar_table tbody tr:nth-child(even) td:first-child {
+    background-color: #fbfbfd;
+}
+
+.o_helpdesk_owl_calendar_table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.o_helpdesk_owl_calendar_table tbody tr:hover td,
+.o_helpdesk_owl_calendar_table tbody tr:hover td:first-child {
+    background-color: var(--hc-accent-soft);
+}
+
+.o_helpdesk_owl_calendar_cell {
+    min-width: 2rem;
+    vertical-align: middle;
+    padding: 0.4rem 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--hc-text-muted);
+}
+
+/* Indicador de "hoy" en la cabecera */
+.o_helpdesk_owl_calendar_cell_today {
+    background-color: rgb(254, 240, 240) !important;
+    color: var(--hc-today) !important;
+    font-weight: 800;
+    position: relative;
+}
+
+.o_helpdesk_owl_calendar_cell_today::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: var(--hc-today);
+    border-radius: 2px 2px 0 0;
+}
+
+/* ---------- Fila de grupo (equipo) ---------- */
+
+.o_helpdesk_owl_calendar_dept_row td {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 6px 1rem;
+    border-right: none;
+    position: sticky;
+    left: 0;
+}
+
+/* ---------- Zona de tracks (Gantt) ---------- */
+
+.o_helpdesk_owl_calendar_track_cell {
+    padding: 0;
+    position: relative;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.o_helpdesk_owl_calendar_track_grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+/* Un carril = una fila horizontal de TRACK_HEIGHT px dentro de la fila del usuario */
+.o_helpdesk_owl_calendar_track {
+    position: absolute;
+    left: 0;
+    height: 30px;
+    width: 100%;
+}
+
+/* ---------- Barras de ticket ---------- */
+
+@keyframes hc-ticket-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px) scaleX(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleX(1);
+    }
+}
+
+.o_helpdesk_owl_calendar_ticket {
+    position: absolute; /* posicionada dentro de su .o_helpdesk_owl_calendar_track mediante left/width inline */
+    top: 3px;
+    height: 24px;
+    line-height: 24px;
+    background: linear-gradient(135deg, var(--hc-accent), var(--hc-accent-dark));
+    color: #fff;
+    padding: 0 0.65rem;
+    border-radius: var(--hc-radius);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: var(--hc-ticket-shadow);
+    transform-origin: left center;
+    z-index: 1;
+    animation: hc-ticket-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.2s ease;
+
+    &.o_ticket_open {
+        background-color: var(--hc-status-open);
+    }
+
+    &.o_ticket_closed {
+        background-color: var(--hc-status-closed);
+    }
+}
+
+.o_helpdesk_owl_calendar_ticket > small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o_helpdesk_owl_calendar_ticket:hover {
+    transform: translateY(-2px) scaleX(1);
+    box-shadow: var(--hc-ticket-shadow-hover);
+    filter: brightness(1.08);
+    z-index: 2;
+}
+
+.o_helpdesk_owl_calendar_ticket:active {
+    transform: translateY(0) scaleX(1);
+    filter: brightness(0.96);
+}
+
+/* Efecto escalonado: cada carril entra un pelín más tarde que el anterior */
+.o_helpdesk_owl_calendar_track:nth-child(1) .o_helpdesk_owl_calendar_ticket { animation-delay: 0s; }
+.o_helpdesk_owl_calendar_track:nth-child(2) .o_helpdesk_owl_calendar_ticket { animation-delay: 0.04s; }
+.o_helpdesk_owl_calendar_track:nth-child(3) .o_helpdesk_owl_calendar_ticket { animation-delay: 0.08s; }
+.o_helpdesk_owl_calendar_track:nth-child(4) .o_helpdesk_owl_calendar_ticket { animation-delay: 0.12s; }
+.o_helpdesk_owl_calendar_track:nth-child(n+5) .o_helpdesk_owl_calendar_ticket { animation-delay: 0.16s; }
+
+/* ---------- Usuario (avatar + nombre) ---------- */
+
+.o_helpdesk_owl_calendar_avatar {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px var(--hc-border-strong);
+}
+
+.o_helpdesk_owl_calendar_user_link {
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: color 0.15s ease;
+    cursor: pointer;
+}
+
+.o_helpdesk_owl_calendar_user_link:hover {
+    color: var(--hc-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ---------- Barra de estado (abiertos/cerrados) con tooltip instantáneo ---------- */
+
+.o_helpdesk_owl_calendar_status_bar {
+    display: flex;
+    width: 90%;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+    background-color: #eef0f3;
+}
+
+.o_helpdesk_owl_calendar_status_bar_open,
+.o_helpdesk_owl_calendar_status_bar_closed {
+    position: relative;
+    height: 100%;
+    transition: filter 0.12s ease, transform 0.12s ease, width 0.4s ease;
+}
+
+.o_helpdesk_owl_calendar_status_bar_open {
+    background-color: #d8d8d8;
+}
+
+.o_helpdesk_owl_calendar_status_bar_closed {
+    background-color: var(--hc-status-closed);
+}
+
+.o_helpdesk_owl_calendar_status_bar_open:hover,
+.o_helpdesk_owl_calendar_status_bar_closed:hover {
+    filter: brightness(1.15);
+    transform: scaleY(1.6);
+}
+
+/* Cabecera: "#id - título" */
+.o_helpdesk_owl_calendar_ticket_tooltip_header {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #000;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--hc-border);
+    text-align: left;
+
+}
+
+/* Fila: estrellas de prioridad a la izquierda, estado a la derecha */
+.o_helpdesk_owl_calendar_ticket_tooltip_meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    text-align: left;
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip_status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: #fff;
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip_status.o_status_open {
+    background-color: var(--hc-status-open);
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip_status.o_status_closed {
+    background-color: var(--hc-status-closed);
+}
+
+/* Contacto, sin etiqueta */
+.o_helpdesk_owl_calendar_ticket_tooltip_contact {
+    font-size: 0.74rem;
+    color: #000;
+    text-align: left;
+
+}
+
+/* Tooltip propio: aparece al instante, sin el delay nativo del "title" */
+.o_helpdesk_owl_calendar_status_bar_open[data-tooltip]::after,
+.o_helpdesk_owl_calendar_status_bar_closed[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(2px);
+    background: #1a1d29;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.25rem 0.55rem;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.08s ease, transform 0.08s ease;
+}
+
+.o_helpdesk_owl_calendar_status_bar_open[data-tooltip]::before,
+.o_helpdesk_owl_calendar_status_bar_closed[data-tooltip]::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1a1d29;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.08s ease;
+}
+
+.o_helpdesk_owl_calendar_status_bar_open[data-tooltip]:hover::after,
+.o_helpdesk_owl_calendar_status_bar_closed[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.o_helpdesk_owl_calendar_status_bar_open[data-tooltip]:hover::before,
+.o_helpdesk_owl_calendar_status_bar_closed[data-tooltip]:hover::before {
+    opacity: 1;
+}
+
+/* ---------- Tooltip de ticket (Tarea / Prioridad / Contacto) ---------- */
+
+.o_helpdesk_owl_calendar_ticket_tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    background: #fff;
+    color: var(--hc-text);
+    border: 1px solid var(--hc-border-strong);
+    border-radius: var(--hc-radius);
+    box-shadow: var(--hc-popover-shadow);
+    padding: 0.6rem 0.75rem;
+    min-width: 200px;
+    max-width: 260px;
+    white-space: normal;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    z-index: 30;
+    transition: opacity 0.08s ease, transform 0.08s ease;
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip.o_tooltip_below {
+    bottom: auto;
+    top: calc(100% + 8px);
+    transform: translateY(-4px);
+}
+
+/* Si no cabe hacia la derecha dentro del contenedor, se ancla por la derecha del ticket */
+.o_helpdesk_owl_calendar_ticket_tooltip.o_tooltip_right {
+    left: auto;
+    right: 0;
+}
+
+.o_helpdesk_owl_calendar_ticket:hover .o_helpdesk_owl_calendar_ticket_tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.o_helpdesk_owl_calendar_ticket_tooltip_stars {
+    display: flex;
+    gap: 2px;
+    font-size: 0.95rem;
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip_stars .fa-star {
+    color: #f4a300;
+}
+
+.o_helpdesk_owl_calendar_ticket_tooltip_stars .fa-star-o {
+    color: #d1d5db;
+}
+
+/* ---------- Toggle Semana / Mes ---------- */
+
+.o_ec_toggle_btn {
+    border: none;
+    background: transparent;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--hc-radius-sm);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--hc-text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.o_ec_toggle_btn:hover {
+    color: var(--hc-text);
+}
+
+.o_ec_toggle_active {
+    background: #fff;
+    color: var(--hc-accent-dark);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+/* ---------- Filtro por equipo ---------- */
+
+.o_helpdesk_owl_calendar_team_filter {
+    position: relative;
+}
+
+.o_helpdesk_owl_calendar_team_filter_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--hc-border-strong);
+    border-radius: var(--hc-radius);
+    padding: 0.35rem 0.65rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--hc-text);
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.o_helpdesk_owl_calendar_team_filter_btn:hover {
+    border-color: var(--hc-accent);
+}
+
+.o_helpdesk_owl_calendar_team_filter_btn .fa-users,
+.o_helpdesk_owl_calendar_team_filter_btn .fa-user {
+    color: var(--hc-text-muted);
+    font-size: 0.8rem;
+}
+
+.o_helpdesk_owl_calendar_team_filter_btn .fa-caret-down {
+    font-size: 0.75rem;
+    color: var(--hc-text-muted);
+}
+
+.o_helpdesk_owl_calendar_team_filter_badge {
+    background: var(--hc-accent);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 999px;
+    line-height: 1.4;
+}
+
+.o_helpdesk_owl_calendar_team_filter_panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #fff;
+    border: 1px solid var(--hc-border-strong);
+    border-radius: var(--hc-radius);
+    box-shadow: var(--hc-popover-shadow);
+    padding: 6px;
+    min-width: 200px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.o_helpdesk_owl_calendar_team_filter_option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: var(--hc-radius-sm);
+    font-size: 0.82rem;
+    color: var(--hc-text);
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+}
+
+.o_helpdesk_owl_calendar_team_filter_option:hover {
+    background: var(--hc-accent-soft);
+}
+
+.o_helpdesk_owl_calendar_team_filter_option input[type="checkbox"] {
+    accent-color: var(--hc-accent);
+    cursor: pointer;
+}
+
+.o_helpdesk_owl_calendar_team_filter_empty {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--hc-text-muted);
+    text-align: center;
+}
+
+/* Buscador dentro del panel de contactos */
+.o_helpdesk_owl_calendar_team_filter_search {
+    width: 100%;
+    border: 1px solid var(--hc-border-strong);
+    border-radius: var(--hc-radius-sm);
+    padding: 0.35rem 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+}
+
+.o_helpdesk_owl_calendar_team_filter_search:focus {
+    outline: none;
+    border-color: var(--hc-accent);
+    box-shadow: 0 0 0 3px var(--hc-accent-soft);
+}
+
+.o_helpdesk_owl_calendar_team_filter_footer {
+    border-top: 1px solid var(--hc-border);
+    margin-top: 4px;
+    padding-top: 4px;
+}
+
+.o_helpdesk_owl_calendar_team_filter_clear {
+    width: 100%;
+    text-align: center;
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--hc-accent-dark);
+    cursor: pointer;
+    border-radius: var(--hc-radius-sm);
+}
+
+.o_helpdesk_owl_calendar_team_filter_clear:hover {
+    background: var(--hc-accent-soft);
+}
