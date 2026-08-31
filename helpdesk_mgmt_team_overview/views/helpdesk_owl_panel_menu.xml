@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="action_owl_tree_helpdesk_personals_js" model="ir.actions.client">
+        <field name="name">Team Performance</field>
+        <field name="tag">helpdesk_mgmt_team_overview.action_helpdesk_personals_list</field>
+    </record>
+
+    <menuitem
+        name="Team Performance"
+        parent="helpdesk_mgmt.helpdesk_ticket_main_menu"
+        id="menu_owl_helpdesk_personals_js"
+        sequence="10"
+        action="action_owl_tree_helpdesk_personals_js"
+    />
+</odoo>
