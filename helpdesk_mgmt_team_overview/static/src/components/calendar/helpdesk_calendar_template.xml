@@ -1,0 +1,210 @@
+<templates>
+    <t t-name="helpdesk_mgmt_team_overview.CalendarView">
+        <div class="o_helpdesk_owl_calendar">
+            <div class="o_helpdesk_owl_calendar_header">
+                <div>
+                    <h2 class="o_helpdesk_owl_calendar_title">Gantt Goals</h2>
+                    <div class="o_helpdesk_owl_calendar_subtitle">
+                        <t t-if="state.viewMode === 'week'">Weekly view by user</t>
+                        <t t-else="">Monthly view by user</t>
+                        - <t t-esc="state.periodLabel" />
+                    </div>
+                </div>
+                <div class="o_helpdesk_owl_calendar_controls d-flex align-items-center gap-2">
+                    <!-- Filtro por equipo -->
+                    <div class="o_helpdesk_owl_calendar_team_filter">
+                        <button type="button" class="o_helpdesk_owl_calendar_team_filter_btn" t-on-click="toggleTeamFilterPanel">
+                            <i class="fa fa-users" />
+                            Teams
+                            <span class="o_helpdesk_owl_calendar_team_filter_badge" t-if="state.selectedTeamIds.length" t-esc="state.selectedTeamIds.length" />
+                            <i class="fa fa-caret-down" />
+                        </button>
+
+                        <div class="o_helpdesk_owl_calendar_team_filter_panel" t-if="state.teamFilterOpen" t-on-click.stop="() => {}">
+                            <label class="o_helpdesk_owl_calendar_team_filter_option" t-foreach="state.teams" t-as="team" t-key="team.id">
+                                <input
+                                    type="checkbox"
+                                    t-att-checked="state.selectedTeamIds.includes(team.id)"
+                                    t-on-change="(ev) => this.toggleTeamSelection(team.id, ev)" />
+                                <span t-esc="team.name" />
+                            </label>
+
+                            <div class="o_helpdesk_owl_calendar_team_filter_footer" t-if="state.selectedTeamIds.length">
+                                <button type="button" class="o_helpdesk_owl_calendar_team_filter_clear" t-on-click="clearTeamFilter">
+                                    Clean selection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtro por contacto -->
+                    <div class="o_helpdesk_owl_calendar_team_filter">
+                        <button type="button" class="o_helpdesk_owl_calendar_team_filter_btn" t-on-click="toggleContactFilterPanel">
+                            <i class="fa fa-user" />
+                            Contacts
+                            <span class="o_helpdesk_owl_calendar_team_filter_badge" t-if="state.selectedPartnerIds.length" t-esc="state.selectedPartnerIds.length" />
+                            <i class="fa fa-caret-down" />
+                        </button>
+
+                        <div class="o_helpdesk_owl_calendar_team_filter_panel" t-if="state.contactFilterOpen" t-on-click.stop="() => {}">
+                            <input
+                                type="text"
+                                class="o_helpdesk_owl_calendar_team_filter_search"
+                                placeholder="Search contact..."
+                                t-att-value="state.contactSearchQuery"
+                                t-on-input="onContactSearchInput" />
+
+                            <t t-if="!filteredContacts.length">
+                                <div class="o_helpdesk_owl_calendar_team_filter_empty">No contacts found</div>
+                            </t>
+                            <label class="o_helpdesk_owl_calendar_team_filter_option" t-foreach="filteredContacts" t-as="contact" t-key="contact.id">
+                                <input
+                                    type="checkbox"
+                                    t-att-checked="state.selectedPartnerIds.includes(contact.id)"
+                                    t-on-change="(ev) => this.toggleContactSelection(contact.id, ev)" />
+                                <span t-esc="contact.name" />
+                            </label>
+
+                            <div class="o_helpdesk_owl_calendar_team_filter_footer" t-if="state.selectedPartnerIds.length">
+                                <button type="button" class="o_helpdesk_owl_calendar_team_filter_clear" t-on-click="clearContactFilter">
+                                    Clean selection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navegación de periodo (‹ ›) -->
+                    <div class="o_helpdesk_owl_calendar_nav">
+                        <button type="button" class="o_helpdesk_owl_calendar_nav_btn" t-on-click="onPrevPeriod">
+                            <i class="fa fa-chevron-left" />
+                        </button>
+                        <button type="button" class="o_helpdesk_owl_calendar_nav_btn" t-on-click="onNextPeriod">
+                            <i class="fa fa-chevron-right" />
+                        </button>
+                    </div>
+
+                    <!-- Selector de mes/año, solo visible en vista mensual -->
+                    <t t-if="state.viewMode === 'month'">
+                        <select class="o_helpdesk_owl_calendar_select" t-on-change="onMonthChange">
+                            <t t-foreach="months" t-as="m" t-key="m.id">
+                                <option t-att-value="m.id" t-att-selected="m.id === state.selectedMonth">
+                                    <t t-esc="m.name" />
+                                </option>
+                            </t>
+                        </select>
+                        <input type="number" class="o_helpdesk_owl_calendar_year_input" t-att-value="state.selectedYear" t-on-change="onYearChange" />
+                    </t>
+
+                    <!-- Toggle Semana / Mes -->
+                    <div class="o_ec_period_toggle">
+                        <button
+                            t-att-class="'o_ec_toggle_btn' + (state.viewMode === 'week' ? ' o_ec_toggle_active' : '')"
+                            t-on-click="() => this.onTogglePeriod('week')">
+                            Week
+                        </button>
+                        <button
+                            t-att-class="'o_ec_toggle_btn' + (state.viewMode === 'month' ? ' o_ec_toggle_active' : '')"
+                            t-on-click="() => this.onTogglePeriod('month')">
+                            Month
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="o_helpdesk_owl_calendar_table_container" t-ref="tableContainer">
+                <table class="table table-sm o_helpdesk_owl_calendar_table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <t t-foreach="state.days" t-as="day" t-key="day.dateStr">
+                                <th class="o_helpdesk_owl_calendar_cell" t-att-class="{ 'o_helpdesk_owl_calendar_cell_today': day.dateStr === todayStr }">
+                                    <span t-esc="day.label" />
+                                </th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="groupedUsers" t-as="group" t-key="group.id">
+                            <!-- Cabecera de grupo (equipo) -->
+                            <tr class="o_helpdesk_owl_calendar_dept_row">
+                                <td t-att-colspan="state.days.length + 1" t-att-style="'background-color:' + group.color.bg + '; color:' + group.color.text + ';'">
+                                    <t t-esc="group.name" />
+                                </td>
+                            </tr>
+
+                            <t t-foreach="group.users" t-as="user" t-key="user.id">
+                                <!-- Tracks y altura de fila calculados una sola vez por usuario -->
+                                <t t-set="tracks" t-value="buildUserTracks(user.id, group.teamId)" />
+                                <t t-set="rowHeight" t-value="getRowHeight(tracks.length)" />
+                                <t t-set="stats" t-value="getUserStatusStats(user.id, group.teamId)" />
+
+                                <tr>
+                                    <td t-att-style="'background-color:' + group.color.bg + '; height:' + rowHeight + 'px;'">
+                                        <div class="d-flex align-items-center gap-2 o_helpdesk_owl_calendar_user_cell">
+                                            <img
+                                                t-att-src="'/web/image/res.users/' + user.id + '/avatar_128'"
+                                                class="o_helpdesk_owl_calendar_avatar rounded-circle"
+                                                alt="" />
+                                            <strong
+                                                class="o_helpdesk_owl_calendar_user_link"
+                                                style="cursor: pointer;"
+                                                t-on-click="() => this.openNewTicketForm(user.id, group.teamId)"
+                                                t-esc="user.name" />
+                                        </div>
+                                        <div class="o_helpdesk_owl_calendar_status_bar" t-if="stats.total > 0">
+                                            <div class="o_helpdesk_owl_calendar_status_bar_closed" t-att-style="'width:' + stats.closedPct + '%'" t-att-data-tooltip="getClosedTooltip(stats)" />
+                                            <div class="o_helpdesk_owl_calendar_status_bar_open" t-att-style="'width:' + stats.openPct + '%'" t-att-data-tooltip="getOpenTooltip(stats)" />
+                                        </div>
+                                    </td>
+
+                                    <td class="o_helpdesk_owl_calendar_track_cell" t-att-colspan="state.days.length" t-att-style="'height:' + rowHeight + 'px'">
+                                        <div class="o_helpdesk_owl_calendar_track_grid" t-att-style="'grid-template-columns: repeat(' + state.days.length + ', minmax(0, 1fr)); background-size: calc(100% / ' + state.days.length + ') 100%;'">
+                                            <div
+                                                t-if="isTodayVisible()"
+                                                t-att-style="'left:' + getTodayColumnLeft() + '%; width:' + getTodayColumnWidth() + '%;'" />
+
+                                            <!-- Un carril por fila de tickets no solapados -->
+                                            <t t-foreach="tracks" t-as="track" t-key="track.tickets[0].id">
+                                                <div class="o_helpdesk_owl_calendar_track" t-att-style="'top:' + track.top + 'px'">
+                                                    <t t-foreach="track.tickets" t-as="ticket" t-key="ticket.id">
+                                                        <div
+                                                            class="o_helpdesk_owl_calendar_ticket"
+                                                            t-att-class="{ 'o_ticket_open': !ticket.closed, 'o_ticket_closed': ticket.closed }"
+                                                            t-att-style="'left:' + getTrackLeft(ticket) + '%; width:' + getTrackWidth(ticket) + '%;'"
+                                                            t-on-click.prevent="() => this.openTicketForm(ticket)"
+                                                            t-on-mouseenter="onTicketMouseEnter">
+                                                            <small t-esc="ticket.name" />
+
+                                                            <div class="o_helpdesk_owl_calendar_ticket_tooltip">
+                                                                <div class="o_helpdesk_owl_calendar_ticket_tooltip_header">
+                                                                    <t t-esc="ticket.number" /> - <t t-esc="ticket.name" />
+                                                                </div>
+                                                                <div class="o_helpdesk_owl_calendar_ticket_tooltip_meta">
+                                                                    <span class="o_helpdesk_owl_calendar_ticket_tooltip_stars">
+                                                                        <t t-foreach="getPriorityStars(ticket.priority)" t-as="filled" t-key="filled_index">
+                                                                            <i t-att-class="filled ? 'fa fa-star' : 'fa fa-star-o'" />
+                                                                        </t>
+                                                                    </span>
+                                                                    <span
+                                                                        class="o_helpdesk_owl_calendar_ticket_tooltip_status"
+                                                                        t-att-class="{ 'o_status_closed': ticket.closed, 'o_status_open': !ticket.closed }">
+                                                                        <t t-esc="ticket.stage_id ? ticket.stage_id[1] : '-'" />
+                                                                    </span>
+                                                                </div>
+                                                                <div class="o_helpdesk_owl_calendar_ticket_tooltip_contact" t-esc="ticket.partner_id ? ticket.partner_id[1] : '-'" />
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

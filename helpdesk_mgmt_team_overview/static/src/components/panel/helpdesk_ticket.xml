@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="helpdesk_mgmt_team_overview.TeamBar">
+        <div class="o_tp_team_bar_group o_tp_hover_trigger"
+            t-on-mouseenter="() => this.onTeamBarEnter(team, kind)"
+            t-on-mouseleave="() => this.onTeamBarLeave()">
+            <span t-attf-class="o_tp_team_bar_label o_tp_bar_label{{kind === 'extra' ? 2 : 1}}"
+                t-esc="kind === 'extra' ? 'Extra' : 'Main'"/>
+            <div class="o_tp_team_bar_track">
+                <div t-attf-class="o_tp_team_bar_fill o_tp_bar_fill{{kind === 'extra' ? 2 : 1}}"
+                    t-attf-style="width: {{kind === 'extra' ? team.extraPercent : team.mainPercent}}%;"/>
+            </div>
+            <span class="o_tp_team_bar_percent"
+                t-esc="(kind === 'extra' ? team.extraPercent : team.mainPercent) + '%'"/>
+
+            <div t-if="state.hoverPanel and state.hoverPanel.key === (kind + '-' + team.id)"
+                class="o_tp_hover_panel"
+                t-on-mouseenter="() => this.onHoverPanelMouseEnter()"
+                t-on-mouseleave="() => this.onHoverPanelMouseLeave()">
+                <t t-call="helpdesk_mgmt_team_overview.TeamPerformanceHoverBody"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="helpdesk_mgmt_team_overview.TicketRow">
+        <div t-attf-class="{{rowClass}}{{ticket.dueSoon ? ' o_tp_ticket_due_soon' : ''}}{{ticket.overdue ? ' o_tp_ticket_overdue' : ''}}"
+            t-on-click="() => this.onTicketRowClick(ticket.id)">
+
+            <div t-if="showAvatar" class="o_tp_hover_ticket_avatar">
+                <img t-if="ticket.member and ticket.member.image_128"
+                    t-attf-src="data:image/png;base64,{{ticket.member.image_128}}"/>
+                <span t-else="" t-esc="ticket.member and ticket.member.name ? ticket.member.name[0] : '?'"/>
+            </div>
+
+            <div t-attf-class="{{showAvatar ? 'o_tp_hover_ticket_info' : 'w-100'}}">
+                <div class="o_tp_ticket_name" t-esc="ticket.number + ' - ' + ticket.name"/>
+
+                <div t-if="!showAvatar" class="o_tp_ticket_priority">
+                    <t t-foreach="ticket.priorityStars" t-as="filled" t-key="filled_index">
+                        <span t-att-class="filled ? 'o_tp_star o_tp_star_filled' : 'o_tp_star'">★</span>
+                    </t>
+                </div>
+
+                <div class="o_tp_ticket_meta">
+                    <span class="o_tp_ticket_stage" t-esc="ticket.stage_id ? ticket.stage_id[1] : ''"/>
+                    <div class="o_tp_ticket_meta_right">
+                        <span t-if="ticket.endDateDisplay" class="o_tp_ticket_date" t-esc="ticket.endDateDisplay"/>
+                        <span t-if="ticket.closed" class="o_tp_ticket_badge_closed">Closed</span>
+                        <span t-else="" class="o_tp_ticket_badge_open">Open</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="helpdesk_mgmt_team_overview.TeamPerformance">
+        <div class="row" t-ref="root">
+            <div class="col">
+                <div class="o_personal_tickets_container" style="max-height: 800px; overflow-y: auto; overflow-x: hidden;">
+
+                    <div class="o_tp_toolbar">
+                        <div class="o_tp_toolbar_title">Team Performance</div>
+                        <div class="o_tp_period_nav">
+                            <button class="o_tp_period_nav_btn" t-on-click="() => this.onPeriodNav(-1)">‹</button>
+                            <span
+                                t-att-class="'o_tp_period_nav_label' + (state.periodOffset === 0 ? ' o_tp_period_nav_current' : '')"
+                                t-on-click="() => this.onPeriodToday()"
+                                t-esc="this.getPeriodLabel()"/>
+                            <button class="o_tp_period_nav_btn" t-on-click="() => this.onPeriodNav(1)">›</button>
+                        </div>
+                        <div class="o_tp_period_toggle">
+                            <button
+                                t-att-class="'o_tp_toggle_btn' + (state.periodMode === 'week' ? ' o_tp_toggle_active' : '')"
+                                t-on-click="() => this.onTogglePeriod('week')">Week</button>
+                            <button
+                                t-att-class="'o_tp_toggle_btn' + (state.periodMode === 'month' ? ' o_tp_toggle_active' : '')"
+                                t-on-click="() => this.onTogglePeriod('month')">Month</button>
+                        </div>
+                    </div>
+
+                    <t t-foreach="state.teams" t-as="team" t-key="team.id">
+                        <div class="o_tp_team_header">
+                            <h3 class="o_tp_team_title" t-esc="team.name"/>
+                            <span class="o_tp_team_count" t-esc="team.employees.length"/>
+
+                            <div class="o_tp_team_progress">
+                                <t t-call="helpdesk_mgmt_team_overview.TeamBar">
+                                    <t t-set="kind" t-value="'main'"/>
+                                </t>
+                                <t t-call="helpdesk_mgmt_team_overview.TeamBar">
+                                    <t t-set="kind" t-value="'extra'"/>
+                                </t>
+                            </div>
+                            <div class="o_tp_team_line"/>
+                        </div>
+
+                        <div class="o_tp_grid">
+                            <t t-foreach="team.employees" t-as="member" t-key="member.id">
+                                <div class="o_user_card_wrapper">
+                                    <div class="o_user_card">
+
+                                        <div class="o_tp_legend">
+                                            <div class="o_tp_legend_item o_tp_g1"><span class="o_tp_dot"/>Main</div>
+                                            <div class="o_tp_legend_item o_tp_g2"><span class="o_tp_dot"/>Extra</div>
+                                        </div>
+
+                                        <div class="o_tp_rings_wrap">
+                                            <svg t-key="member.id + '-' + state.periodMode + '-' + state.periodOffset" class="o_tp_rings" viewBox="0 0 240 240">
+                                                <circle
+                                                    class="o_tp_ring_track o_tp_ring_track1 o_tp_stat_trigger"
+                                                    cx="120" cy="120" r="100" stroke-width="18"
+                                                    t-on-click="() => this.onMainObjectivesClick(member)"/>
+                                                <circle
+                                                    class="o_tp_ring_track o_tp_ring_track2 o_tp_stat_trigger"
+                                                    cx="120" cy="120" r="76" stroke-width="19"
+                                                    t-on-click="() => this.onExtraObjectivesClick(member)"/>
+                                                <circle
+                                                    t-att-class="'o_tp_ring_progress o_tp_ring1' + (member.ring1Complete ? ' o_tp_ring_complete' : '')"
+                                                    cx="120" cy="120" r="100" stroke-width="18"
+                                                    t-attf-style="--dash-array: {{member.ring1Circumference}}; --target-offset: {{member.ring1Offset}};"
+                                                />
+                                                <circle
+                                                    t-att-class="'o_tp_ring_progress o_tp_ring2' + (member.ring2Complete ? ' o_tp_ring_complete' : '')"
+                                                    cx="120" cy="120" r="76" stroke-width="19"
+                                                    t-attf-style="--dash-array: {{member.ring2Circumference}}; --target-offset: {{member.ring2Offset}};"
+                                                />
+                                            </svg>
+
+                                            <div class="o_tp_photo_slot">
+                                                <img t-if="member.image_128"
+                                                    t-attf-src="data:image/png;base64,{{member.image_128}}"
+                                                    class="o_tp_photo_img"/>
+                                                <div t-else="" class="o_tp_photo_initials" t-esc="member.name ? member.name[0] : '?'"/>
+                                            </div>
+
+                                            <div class="o_tp_ring_label o_tp_ring_label1 o_tp_stat_trigger"
+                                                t-on-click="() => this.onMainObjectivesClick(member)">
+                                                <span t-esc="member.mainObjectivesClosed + '/' + member.mainObjectivesTotal"/>
+                                                <span class="o_tp_ring_label_percent" t-esc="member.mainObjectivesPercent + '%'"/>
+                                            </div>
+                                            <div class="o_tp_ring_label o_tp_ring_label2 o_tp_stat_trigger"
+                                                t-on-click="() => this.onExtraObjectivesClick(member)">
+                                                <span t-esc="member.extraObjectivesClosed + '/' + member.extraObjectivesTotal"/>
+                                                <span class="o_tp_ring_label_percent" t-esc="member.extraObjectivesPercent + '%'"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_tp_name" t-esc="member.name"/>
+
+                                        <div class="o_tp_stats">
+                                            <div class="o_tp_stat o_tp_stat_trigger" t-on-click="() => this.onMainObjectivesClick(member)">
+                                                <div class="o_tp_stat_value"><t t-esc="member.mainObjectivesClosed"/>/<t t-esc="member.mainObjectivesTotal"/></div>
+                                                <div class="o_tp_stat_label">Main Objetives</div>
+                                            </div>
+                                            <div class="o_tp_stat o_tp_stat_trigger" t-on-click="() => this.onExtraObjectivesClick(member)">
+                                                <div class="o_tp_stat_value"><t t-esc="member.extraObjectivesClosed"/>/<t t-esc="member.extraObjectivesTotal"/></div>
+                                                <div class="o_tp_stat_label">Extra Objetives</div>
+                                            </div>
+                                        </div>
+
+                                        <button class="o_tp_all_tickets_btn o_tp_stat_trigger" t-on-click="() => this.onMemberPhotoClick(member)">
+                                            View All Tickets
+                                        </button>
+                                    </div>
+
+                                    <div t-if="state.activePanel and state.activePanel.memberId === member.id"
+                                        t-att-class="'o_tp_side_panel' + (state.activePanel.closing ? ' o_tp_side_panel_closing' : '')">
+                                        <div class="o_tp_panel_header">
+                                            <h4 t-esc="state.activePanel.title"/>
+                                            <button class="o_tp_panel_close" t-on-click="() => this.closeActivePanel()">×</button>
+                                        </div>
+                                        <div class="o_tp_panel_body">
+                                            <div t-if="state.activePanel.loading" class="o_tp_side_panel_loading">Loading...</div>
+                                            <t t-else="">
+                                                <div t-if="!state.activePanel.tickets.length" class="o_tp_side_panel_empty">
+                                                    There are no tickets available during this period.
+                                                </div>
+                                                <t t-foreach="state.activePanel.tickets" t-as="ticket" t-key="ticket.id">
+                                                    <t t-call="helpdesk_mgmt_team_overview.TicketRow">
+                                                        <t t-set="rowClass" t-value="'o_tp_ticket_row'"/>
+                                                        <t t-set="showAvatar" t-value="false"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </div>
+                                        <button class="o_tp_side_panel_btn" t-on-click="() => this.onOpenActivePanelInOdoo()">View All</button>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="helpdesk_mgmt_team_overview.TeamPerformanceHoverBody">
+        <div class="o_tp_hover_panel_header" t-esc="state.hoverPanel.title"/>
+        <div class="o_tp_hover_panel_body">
+            <div t-if="state.hoverPanel.loading" class="o_tp_side_panel_loading">Loading...</div>
+            <t t-else="">
+                <div t-if="!state.hoverPanel.tickets.length" class="o_tp_side_panel_empty">
+                    There are no tickets available during this period.
+                </div>
+                <t t-foreach="state.hoverPanel.tickets" t-as="ticket" t-key="ticket.id">
+                    <t t-call="helpdesk_mgmt_team_overview.TicketRow">
+                        <t t-set="rowClass" t-value="'o_tp_hover_ticket_row'"/>
+                        <t t-set="showAvatar" t-value="true"/>
+                    </t>
+                </t>
+            </t>
+        </div>
+    </t>
+</templates>
