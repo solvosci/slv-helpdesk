@@ -4,7 +4,7 @@
         Adds two views Team Performance and Gantt Goals to helpdesk teams,
         allowing to see the performance of the team and control the tickets.
     """,
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.1.0",
     "category": "Helpdesk",
     "website": "https://github.com/OCA/helpdesk",
     "author": "Solvos, Odoo Community Association (OCA)",

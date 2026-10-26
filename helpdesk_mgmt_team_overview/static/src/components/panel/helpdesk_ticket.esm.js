@@ -1,15 +1,20 @@
 /** @odoo-module **/
 
-import {Component, onWillStart, useState, useExternalListener} from "@odoo/owl";
+import {Component, onWillStart, onMounted, onWillUnmount, useState, useRef, useEffect, useExternalListener} from "@odoo/owl";
+import {useSetupAction} from "@web/webclient/actions/action_hook";
 import {useService} from "@web/core/utils/hooks";
 import {registry} from "@web/core/registry";
 import {_t} from "@web/core/l10n/translation";
 const {DateTime} = luxon;
 
-const PANEL_CLOSE_MS = 350;
 const HOVER_LEAVE_MS = 180;
 const TICKET_FIELDS = ["id", "number", "name", "stage_id", "start_date", "end_date", "closed", "priority", "user_id"];
 const NO_TEAM_KEY = "none";
+
+const PANEL_CLOSE_MS = 350;
+const CARD_WIDTH = 640;
+const EXPANDED_WIDTH = 640;
+const EXPANDED_HEIGHT = 620;
 
 export class TeamPerformance extends Component {
     static RING1_CIRCUMFERENCE = 2 * Math.PI * 100;
@@ -25,13 +30,42 @@ export class TeamPerformance extends Component {
         this._hoverLeaveTimer = null;
         this._hoverToken = 0;
 
+        const saved = this.props.state || {};
+
         this.state = useState({
             teams: [],
-            periodMode: "week",
-            periodOffset: 0,
+            periodMode: saved.periodMode || "week",
+            periodOffset: saved.periodOffset || 0,
             activePanel: null,
             hoverPanel: null,
+            refreshing: false,
         });
+        this.panelRef = useRef("sidePanel");
+        this._panelSeq = 0;
+
+        // Comprueba cada minuto si ha cambiado la semana/mes real
+        this._rolloverTimer = setInterval(() => this._checkRollover(), 60000);
+        onWillUnmount(() => clearInterval(this._rolloverTimer));
+
+        // Los navegadores frenan los timers en pestañas ocultas: comprobar al volver
+        useExternalListener(document, "visibilitychange", () => {
+            if (!document.hidden) this._checkRollover();
+        });
+
+        useSetupAction({
+            getLocalState: () => ({
+                periodMode: this.state.periodMode,
+                periodOffset: this.state.periodOffset,
+                panel: this.state.activePanel && !this.state.activePanel.closing
+                    ? {type: this.state.activePanel.type, memberId: this.state.activePanel.memberId}
+                    : null,
+            }),
+        });
+
+        useEffect(
+            (openId) => { if (openId) this._playOpenAnimation(); },
+            () => [this.state.activePanel?.openId]
+        );
 
         onWillStart(async () => {
             await this._loadAccessScope();
@@ -39,9 +73,14 @@ export class TeamPerformance extends Component {
             await this._loadStats();
         });
 
+        // NUEVO: reabre el panel que estaba desplegado
+        onMounted(() => {
+            if (saved.panel) this._restorePanel(saved.panel);
+        });
+
         useExternalListener(document, "click", (ev) => {
             if (!this.state.activePanel) return;
-            const keep = ".o_tp_stat_trigger, .o_tp_side_panel, .o_dialog, .o_dialog_container, .modal";
+            const keep = ".o_tp_stat_trigger, .o_tp_side_panel, .o_tp_panel_backdrop, .o_dialog, .o_dialog_container, .modal";
             if (ev.target.closest(keep)) return;
             this._closePanel();
         });
@@ -92,6 +131,7 @@ export class TeamPerformance extends Component {
     }
 
     async _loadStats() {
+        this._realKey = this._realPeriodKey();
         const userIds = Object.keys(this.usersById).map(Number);
 
         const [open, mainTeam, extraTeam, closed] = await Promise.all([
@@ -121,6 +161,32 @@ export class TeamPerformance extends Component {
         this.state.hoverPanel = null;
         this.state.periodOffset = 0;
         await this._loadStats();
+    }
+
+    async onRefresh() {
+        if (this.state.refreshing) return;
+        this.state.refreshing = true;
+        this.state.hoverPanel = null;
+        try {
+            await this._loadTeams();
+            await this._loadStats();
+            const panel = this.state.activePanel;
+            if (panel && !panel.closing) await this._refreshActivePanel();
+        } finally {
+            this.state.refreshing = false;
+        }
+    }
+
+    _realPeriodKey() {
+        const now = DateTime.local();
+        const start = this.state.periodMode === "month" ? now.startOf("month") : now.startOf("week");
+        return `${this.state.periodMode}-${start.toISODate()}`;
+    }
+
+    async _checkRollover() {
+        if (this.state.refreshing || this._realKey === this._realPeriodKey()) return;
+        if (this.state.activePanel) this._closePanel();
+        await this.onRefresh();
     }
 
     /* === 2. Estadísticas por (equipo, usuario) ============================ */
@@ -197,13 +263,18 @@ export class TeamPerformance extends Component {
 
     _periodDomain(userIds, extra = null, teamId = undefined) {
         const {start, end} = this._getPeriodRange();
-        const domain = [
-            ["user_id", "in", userIds],
-            ["start_date", "<", end.toFormat("yyyy-MM-dd")],
-            ["end_date", ">=", start.toFormat("yyyy-MM-dd")],
-        ];
+        const today = DateTime.local().startOf("day").toFormat("yyyy-MM-dd");
+
+        const domain = [["user_id", "in", userIds]];
         if (teamId !== undefined) domain.push(["team_id", "in", [teamId, false]]);
         if (extra !== null) domain.push(["extra_objetive", "=", extra]);
+
+        domain.push(
+            "|",
+            "&", ["start_date", "<", end.toFormat("yyyy-MM-dd")], ["end_date", ">=", start.toFormat("yyyy-MM-dd")],
+            "&", ["closed", "=", false], ["end_date", "<", today]
+        );
+
         return domain;
     }
 
@@ -271,14 +342,91 @@ export class TeamPerformance extends Component {
         return tickets.sort((a, b) => (a.closed !== b.closed ? (a.closed ? 1 : -1) : a.endDateSort - b.endDateSort));
     }
 
+    _getCardRect(memberId) {
+        const el = document.querySelector(`.o_user_card_wrapper[data-member-id="${memberId}"]`);
+        return el ? el.getBoundingClientRect() : null;
+    }
+
+    _prefersReducedMotion() {
+        return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    _computeFlip(panelEl, cardRect) {
+        panelEl.getAnimations().forEach((a) => a.cancel());
+        const P = panelEl.getBoundingClientRect();
+        const Q = panelEl.querySelector(".o_tp_panel_profile").getBoundingClientRect();
+        const s = cardRect.width / Q.width;
+        return {
+            s,
+            tx: cardRect.left - P.left - s * (Q.left - P.left),
+            ty: cardRect.top - P.top - s * (Q.top - P.top),
+        };
+    }
+
+    _playOpenAnimation() {
+        const el = this.panelRef.el;
+        const panel = this.state.activePanel;
+        if (!el || !panel || this._prefersReducedMotion()) return;
+        const cardRect = this._getCardRect(panel.memberId);
+        if (!cardRect) return;
+
+        const {s, tx, ty} = this._computeFlip(el, cardRect);
+        const easing = "cubic-bezier(.2,.8,.2,1)";
+        el.animate(
+            [{transform: `translate(${tx}px, ${ty}px) scale(${s})`}, {transform: "none"}],
+            {duration: 380, easing}
+        );
+
+        // Móvil: los tickets están debajo del perfil, así que entran desde arriba
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        el.querySelector(".o_tp_panel_tickets")?.animate(
+            [
+                {opacity: 0, transform: isMobile ? "translateY(-30px)" : "translateX(-40px)"},
+                {opacity: 1, transform: "none"},
+            ],
+            {duration: 260, delay: 200, easing, fill: "backwards"}
+        );
+    }
+
+    _closePanel() {
+        const panel = this.state.activePanel;
+        if (!panel || panel.closing) return;
+        panel.closing = true;
+
+        const el = this.panelRef.el;
+        const cardRect = this._getCardRect(panel.memberId);
+        const finish = () => {
+            if (this.state.activePanel?.openId === panel.openId) this.state.activePanel = null;
+        };
+        if (!el || !cardRect || this._prefersReducedMotion()) return finish();
+
+        const {s, tx, ty} = this._computeFlip(el, cardRect);
+        el.querySelector(".o_tp_panel_tickets")?.animate(
+            [{opacity: 1}, {opacity: 0}],
+            {duration: 150, fill: "forwards"}
+        );
+        el.animate(
+            [{transform: "none"}, {transform: `translate(${tx}px, ${ty}px) scale(${s})`}],
+            {duration: 320, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards"}
+        ).finished.then(finish).catch(finish);
+    }
+
     async _togglePanel(member, type, title, domain, viewType = "kanban") {
         const key = `${type}-${member.id}`;
         if (this.state.activePanel?.key === key) return this._closePanel();
 
+        if (this.state.activePanel && this.state.activePanel.memberId === member.id && !this.state.activePanel.closing) {
+            Object.assign(this.state.activePanel, {key, type, title, domain, viewType, loading: true, tickets: []});
+            await this._refreshActivePanel();
+            return;
+        }
+
         this.state.activePanel = {
             key, type, title, domain, viewType,
             memberId: member.id, memberName: member.name, userId: member.userId,
+            member,
             loading: true, tickets: [], closing: false,
+            openId: ++this._panelSeq,
         };
         await this._refreshActivePanel();
     }
@@ -292,17 +440,6 @@ export class TeamPerformance extends Component {
             this.state.activePanel.tickets = tickets;
             this.state.activePanel.loading = false;
         }
-    }
-
-    _closePanel() {
-        const panel = this.state.activePanel;
-        if (!panel || panel.closing) return;
-        panel.closing = true;
-        setTimeout(() => {
-            if (this.state.activePanel?.key === panel.key && this.state.activePanel.closing) {
-                this.state.activePanel = null;
-            }
-        }, PANEL_CLOSE_MS);
     }
 
     closeActivePanel() {
@@ -322,17 +459,19 @@ export class TeamPerformance extends Component {
         });
     }
 
-    onMainObjectivesClick(member) {
+    onMainObjectivesClick(member, ev) {
         this._togglePanel(
             member, "main", _t("Main Objectives"),
-            this._periodDomain([member.userId], false, member.teamId)
+            this._periodDomain([member.userId], false, member.teamId),
+            "kanban", ev
         );
     }
 
-    onExtraObjectivesClick(member) {
+    onExtraObjectivesClick(member, ev) {
         this._togglePanel(
             member, "extra", _t("Extra Objectives"),
-            this._periodDomain([member.userId], true, member.teamId)
+            this._periodDomain([member.userId], true, member.teamId),
+            "kanban", ev
         );
     }
 
@@ -390,6 +529,17 @@ export class TeamPerformance extends Component {
     }
 
     /* === 7. Navegación hacia Odoo ========================================= */
+    _restorePanel({type, memberId}) {
+        const member = this.state.teams.flatMap((t) => t.employees).find((m) => m.id === memberId);
+        if (!member) return;
+        const handlers = {
+            main: this.onMainObjectivesClick,
+            extra: this.onExtraObjectivesClick,
+            closed: this.onTicketClosedClick,
+            open: this.onTicketOpenClick,
+        };
+        handlers[type]?.call(this, member);
+    }
 
     onOpenActivePanelInOdoo() {
         const panel = this.state.activePanel;
@@ -404,19 +554,53 @@ export class TeamPerformance extends Component {
         });
     }
 
-    onTicketRowClick(ticketId) {
-        this.actionService.doAction(
-            {
+    async onTicketRowClick(ticketId, ev) {
+        const host = document.querySelector(".o_action_manager");
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let observer = null;
+        let stopTimer = null;
+
+        if (host && ev && !reduced) {
+            const r = host.getBoundingClientRect();
+            const origin = `${ev.clientX - r.left}px ${ev.clientY - r.top}px`;
+
+            observer = new MutationObserver((mutations) => {
+                for (const m of mutations) {
+                    for (const node of m.addedNodes) {
+                        if (node.nodeType !== 1) continue;
+                        node.animate(
+                            [
+                                {transformOrigin: origin, transform: "scale(0.55)", opacity: 0},
+                                {transformOrigin: origin, opacity: 1, offset: 0.6},
+                                {transformOrigin: origin, transform: "none", opacity: 1},
+                            ],
+                            {duration: 320, easing: "cubic-bezier(.2,.9,.25,1)"}
+                        );
+                        observer.disconnect();
+                        clearTimeout(stopTimer);
+                        return;
+                    }
+                }
+            });
+            observer.observe(host, {childList: true});
+            stopTimer = setTimeout(() => observer.disconnect(), 5000); // seguridad
+        }
+
+        try {
+            await this.actionService.doAction({
                 type: "ir.actions.act_window",
+                name: _t("Ticket"),
                 res_model: "helpdesk.ticket",
                 res_id: ticketId,
                 views: [[false, "form"]],
-                target: "new",
-            },
-            {onClose: async () => { await this._loadStats(); await this._refreshActivePanel(); }}
-        );
+                target: "current",
+            });
+        } catch (e) {
+            observer?.disconnect();
+            clearTimeout(stopTimer);
+            throw e;
+        }
     }
-
     /* === 8. Agrupación — depende del ámbito de acceso ===================== */
 
     _buildTeamGroups(statsData) {
