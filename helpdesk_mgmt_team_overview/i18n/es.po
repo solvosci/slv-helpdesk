@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 08:13+0000\n"
-"PO-Revision-Date: 2026-09-07 08:13+0000\n"
+"POT-Creation-Date: 2026-11-04 14:55+0000\n"
+"PO-Revision-Date: 2026-11-04 14:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -81,6 +81,11 @@ msgid "Closed Tickets"
 msgstr "Tickets cerrados"
 
 #. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket_stage__color
+msgid "Color"
+msgstr "Color"
+
+#. module: helpdesk_mgmt_team_overview
 #. odoo-javascript
 #: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
 #, python-format
@@ -93,6 +98,11 @@ msgstr "Contactos"
 #, python-format
 msgid "December"
 msgstr "Diciembre"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket_stage__default_filter_calendar
+msgid "Default Filter Calendar"
+msgstr "Filtro por defecto en calendario"
 
 #. module: helpdesk_mgmt_team_overview
 #: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket__end_date
@@ -157,6 +167,11 @@ msgstr ""
 #: model:ir.model,name:helpdesk_mgmt_team_overview.model_helpdesk_ticket
 msgid "Helpdesk Ticket"
 msgstr "Ticket Helpdesk"
+
+#. module: helpdesk_mgmt_team_overview
+#: model:ir.model,name:helpdesk_mgmt_team_overview.model_helpdesk_ticket_stage
+msgid "Helpdesk Ticket Stage"
+msgstr "Estado de ticket Helpdesk"
 
 #. module: helpdesk_mgmt_team_overview
 #: model:ir.model,name:helpdesk_mgmt_team_overview.model_helpdesk_ticket_team
@@ -287,6 +302,13 @@ msgstr "Tickets abiertos"
 
 #. module: helpdesk_mgmt_team_overview
 #. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.xml:0
+#, python-format
+msgid "Refresh"
+msgstr "Actualizar"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
 #: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar.esm.js:0
 #, python-format
 msgid "Sat"
@@ -362,6 +384,13 @@ msgid "Thu"
 msgstr "Jue"
 
 #. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/panel/helpdesk_ticket.esm.js:0
+#, python-format
+msgid "Ticket"
+msgstr "Ticket"
+
+#. module: helpdesk_mgmt_team_overview
 #: model:ir.model.fields,field_description:helpdesk_mgmt_team_overview.field_helpdesk_ticket_team__ticket_control
 msgid "Ticket Control"
 msgstr "Control de tickets"
@@ -372,6 +401,13 @@ msgstr "Control de tickets"
 #, python-format
 msgid "Tue"
 msgstr "Mar"
+
+#. module: helpdesk_mgmt_team_overview
+#. odoo-javascript
+#: code:addons/helpdesk_mgmt_team_overview/static/src/components/calendar/helpdesk_calendar_template.xml:0
+#, python-format
+msgid "Update"
+msgstr "Actualizar"
 
 #. module: helpdesk_mgmt_team_overview
 #. odoo-javascript
