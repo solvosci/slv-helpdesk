@@ -99,6 +99,16 @@
                         </div>
                     </div>
 
+                    <!-- Botón de actualizar -->
+                    <button
+                        type="button"
+                        class="o_helpdesk_owl_calendar_nav_btn"
+                        t-att-class="'o_helpdesk_owl_calendar_nav_btn' + (state.refreshing ? ' o_tp_refreshing' : '')"
+                        t-on-click="refreshCalendar"
+                        title="Update">
+                        <span class="o_tp_refresh_icon">↻</span>
+                    </button>
+
                     <!-- Navegación de periodo (‹ ›) -->
                     <div class="o_helpdesk_owl_calendar_nav">
                         <button type="button" class="o_helpdesk_owl_calendar_nav_btn" t-on-click="onPrevPeriod">
@@ -196,7 +206,7 @@
                                                         <div
                                                             class="o_helpdesk_owl_calendar_ticket"
                                                             t-att-class="{ 'o_ticket_open': !ticket.closed, 'o_ticket_closed': ticket.closed }"
-                                                            t-att-style="'left:' + getTrackLeft(ticket) + '%; width:' + getTrackWidth(ticket) + '%;'"
+                                                            t-att-style="'left:' + getTrackLeft(ticket) + '%; width:' + getTrackWidth(ticket) + '%; background:' + (getTicketStageColor(ticket) || (ticket.closed ? '#6c757d' : '#2c8397')) + '; border-color:' + (getTicketStageColor(ticket) || (ticket.closed ? '#6c757d' : '#2c8397')) + ';'"
                                                             t-on-click.prevent="() => this.openTicketForm(ticket)"
                                                             t-on-mouseenter="onTicketMouseEnter">
                                                             <small t-esc="ticket.name" />
@@ -213,7 +223,8 @@
                                                                     </span>
                                                                     <span
                                                                         class="o_helpdesk_owl_calendar_ticket_tooltip_status"
-                                                                        t-att-class="{ 'o_status_closed': ticket.closed, 'o_status_open': !ticket.closed }">
+                                                                        t-att-class="{ 'o_status_closed': ticket.closed, 'o_status_open': !ticket.closed }"
+                                                                        t-att-style="getTicketStageColor(ticket) ? 'background:' + getTicketStageColor(ticket) + '; border-color:' + getTicketStageColor(ticket) + ';' : ''">
                                                                         <t t-esc="ticket.stage_id ? ticket.stage_id[1] : '-'" />
                                                                     </span>
                                                                 </div>

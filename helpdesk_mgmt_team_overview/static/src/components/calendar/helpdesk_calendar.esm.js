@@ -133,8 +133,9 @@ export class HelpdeskCalendar extends Component {
             teamFilterOpen: false,
             contactFilterOpen: false,
             contactSearchQuery: "",
+            refreshing: false,
         });
-        this.lastSelectedStageIds = [...this.state.selectedStageIds];
+        this.stageFilterInitialized = false;
 
         // Cierra los desplegables de filtro (equipos/contactos/etapas) al hacer click fuera de ellos.
         useExternalListener(document, "click", () => this.closeAllPanels());
@@ -173,12 +174,38 @@ export class HelpdeskCalendar extends Component {
     async _loadStages() {
         for (const model of STAGE_MODEL_CANDIDATES) {
             try {
-                return await this.orm.searchRead(model, [], ["name", "id"]);
+                return await this.orm.searchRead(model, [], ["name", "id", "default_filter_calendar", "color"]);
             } catch (err) {
                 // Modelo no disponible en esta instalación: probar el siguiente candidato.
             }
         }
         return [];
+    }
+
+    getStageColor(stage) {
+        if (!stage) {
+            return null;
+        }
+
+        if (stage.color === null || stage.color === undefined || stage.color === false) {
+            return null;
+        }
+
+        if (typeof stage.color === "string") {
+            const trimmed = stage.color.trim();
+            return trimmed.startsWith("#") ? trimmed : null;
+        }
+
+        const hex = ODOO_COLOR_PALETTE[Number(stage.color)] || ODOO_COLOR_PALETTE[0];
+        return hex || null;
+    }
+
+    getTicketStageColor(ticket) {
+        if (!ticket || !ticket.stage_id || !Array.isArray(ticket.stage_id)) {
+            return null;
+        }
+        const stage = this.state.stages.find((s) => s.id === ticket.stage_id[0]);
+        return stage ? this.getStageColor(stage) : null;
     }
 
     /** Trae usuarios, equipos (con color) y tickets con fechas completas desde el backend. */
@@ -220,19 +247,19 @@ export class HelpdeskCalendar extends Component {
 
         this.state.stages = await this._loadStages();
 
-        const previousStageIds = this.state.selectedStageIds.length
-            ? this.state.selectedStageIds
-            : this.lastSelectedStageIds;
-        const validStageIds = previousStageIds.filter((id) =>
-            this.state.stages.some((stage) => stage.id === id)
-        );
-
-        if (validStageIds.length) {
-            this.state.selectedStageIds = validStageIds;
-        } else if (this.state.stages.length) {
-            this.state.selectedStageIds = [this.state.stages[0].id];
+        if (!this.stageFilterInitialized) {
+            // Primera carga: preseleccionar las etapas marcadas como "default_filter_calendar".
+            this.state.selectedStageIds = this.state.stages
+                .filter((stage) => stage.default_filter_calendar)
+                .map((stage) => stage.id);
+            this.stageFilterInitialized = true;
+        } else {
+            // Recargas posteriores: respetar la selección del usuario,
+            // solo descartando etapas que ya no existan.
+            this.state.selectedStageIds = this.state.selectedStageIds.filter((id) =>
+                this.state.stages.some((stage) => stage.id === id)
+            );
         }
-        this.lastSelectedStageIds = [...this.state.selectedStageIds];
 
         const domain = [
             ["start_date", "!=", false],
@@ -367,33 +394,51 @@ export class HelpdeskCalendar extends Component {
     toggleStageSelection(stageId, ev) {
         ev.stopPropagation();
         this.toggleArrayItem(this.state.selectedStageIds, stageId);
-        this.lastSelectedStageIds = [...this.state.selectedStageIds];
+        this.loadUsersAndTickets();
     }
 
     toggleTeamSelection(teamId, ev) {
         ev.stopPropagation();
         this.toggleArrayItem(this.state.selectedTeamIds, teamId);
+        this.loadUsersAndTickets();
     }
 
     toggleContactSelection(contactId, ev) {
         ev.stopPropagation();
         this.toggleArrayItem(this.state.selectedPartnerIds, contactId);
+        this.loadUsersAndTickets();
     }
 
     clearTeamFilter(ev) {
         ev.stopPropagation();
         this.state.selectedTeamIds = [];
+        this.loadUsersAndTickets();
     }
 
     clearContactFilter(ev) {
         ev?.stopPropagation();
         this.state.selectedPartnerIds = [];
+        this.loadUsersAndTickets();
     }
 
     clearStageFilter(ev) {
         ev?.stopPropagation();
         this.state.selectedStageIds = [];
-        this.lastSelectedStageIds = [];
+        this.loadUsersAndTickets();
+    }
+
+    /** Recarga los datos del calendario para reflejar cambios externos. */
+    async refreshCalendar() {
+        this.closeAllPanels();
+        if (this.state.refreshing) {
+            return;
+        }
+        this.state.refreshing = true;
+        try {
+            await this.loadUsersAndTickets();
+        } finally {
+            this.state.refreshing = false;
+        }
     }
 
     // -------------------------------------------------------------------
@@ -672,15 +717,31 @@ export class HelpdeskCalendar extends Component {
     }
 
     onTogglePeriod(mode) {
-        this.state.viewMode = mode;
-        if (mode === "week") {
-            this.state.selectedWeekStart = getWeekStartDate(new Date());
-        } else {
-            const current = parseDateStr(this.state.selectedWeekStart);
-            this.state.selectedMonth = current.getMonth();
-            this.state.selectedYear = current.getFullYear();
+        if (mode === this.state.viewMode) {
+            return;
         }
+        if (mode === "week") {
+            // Al pasar a semana: ir a la semana actual si el mes mostrado es el actual,
+            // y si no, a la semana que contiene el día 1 del mes mostrado.
+            const today = new Date();
+            const showingCurrentMonth =
+                this.state.selectedMonth === today.getMonth() &&
+                this.state.selectedYear === today.getFullYear();
+            const reference = showingCurrentMonth
+                ? today
+                : new Date(this.state.selectedYear, this.state.selectedMonth, 1);
+            this.state.selectedWeekStart = getWeekStartDate(reference);
+        } else {
+            // Al pasar a mes: usar el mes del jueves de la semana mostrada
+            // (el mes donde la semana tiene la mayoría de sus días).
+            const thursday = parseDateStr(this.state.selectedWeekStart);
+            thursday.setDate(thursday.getDate() + 3);
+            this.state.selectedMonth = thursday.getMonth();
+            this.state.selectedYear = thursday.getFullYear();
+        }
+        this.state.viewMode = mode;
         this.updateDays();
+        this.loadUsersAndTickets();
     }
 
     /** Desplaza el período actual (semana o mes) "direction" pasos (-1 = anterior, 1 = siguiente). */
@@ -703,6 +764,7 @@ export class HelpdeskCalendar extends Component {
             this.state.selectedWeekStart = formatDateStr(start);
         }
         this.updateDays();
+        this.loadUsersAndTickets();
     }
 
     onPrevPeriod() {
@@ -717,6 +779,7 @@ export class HelpdeskCalendar extends Component {
         this.state.selectedMonth = parseInt(ev.target.value, 10);
         if (this.state.viewMode === "month") {
             this.updateDays();
+            this.loadUsersAndTickets();
         }
     }
 
@@ -724,6 +787,7 @@ export class HelpdeskCalendar extends Component {
         this.state.selectedYear = parseInt(ev.target.value, 10) || this.state.selectedYear;
         if (this.state.viewMode === "month") {
             this.updateDays();
+            this.loadUsersAndTickets();
         }
     }
 }
