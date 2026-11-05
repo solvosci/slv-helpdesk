@@ -1,0 +1,92 @@
+$rel-mute: #a89ca4;
+$rel-edge: #e5e1e4;
+$rel-highlight: #ffa600;
+
+.o_tp_avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.o_tp_owner_avatar { width: 20px; height: 20px; }
+
+.o_tp_stat_rel {
+    margin-left: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $rel-mute;
+}
+.o_tp_rel_avatars {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+.o_tp_rel_avatar {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #fff;
+    margin-left: -5px;
+
+    &:first-child { margin-left: 0; }
+}
+.o_tp_rel_more {
+    margin-left: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    color: $rel-mute;
+}
+
+.o_tp_group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    padding-bottom: 6px;
+    border-bottom: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, currentColor 0%, transparent 100%);
+    }
+}
+
+.o_tp_group_label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2b2530;
+    white-space: nowrap;
+}
+.o_tp_group_count {
+    background: #f1ecef;
+    color: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 999px;
+}
+
+.o_tp_group_related {
+    margin-top: 14px;
+    color: $rel-highlight;
+}
+
+.o_tp_group_own {
+    border-bottom-color: currentColor;
+}
+
+.o_tp_ticket_row.o_tp_ticket_related {
+    &.o_tp_ticket_overdue {
+        background: transparent;
+    }
+    &.o_tp_ticket_due_soon {
+        animation: none;
+        background: transparent;
+    }
+}
