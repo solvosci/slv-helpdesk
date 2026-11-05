@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="helpdesk_mgmt_team_overview_related.RelatedBadge">
+        <span t-if="rel.total" class="o_tp_stat_rel" title="Related">
+            +<t t-esc="rel.closed"/>/<t t-esc="rel.total"/>
+            <span class="o_tp_rel_avatars">
+                <t t-foreach="rel.owners" t-as="owner" t-key="owner.id">
+                    <img class="o_tp_avatar o_tp_rel_avatar"
+                        t-attf-src="/web/image/res.users/{{owner.id}}/avatar_128"
+                        t-att-title="owner.name"/>
+                </t>
+                <span t-if="rel.more" class="o_tp_rel_more">+<t t-esc="rel.more"/></span>
+            </span>
+        </span>
+    </t>
+
+    <t t-inherit="helpdesk_mgmt_team_overview.MemberCardBody" t-inherit-mode="extension">
+        <xpath expr="(//div[hasclass('o_tp_stats')]/div)[1]/div[hasclass('o_tp_stat_value')]" position="inside">
+            <t t-call="helpdesk_mgmt_team_overview_related.RelatedBadge">
+                <t t-set="rel" t-value="member.related.main"/>
+            </t>
+        </xpath>
+        <xpath expr="(//div[hasclass('o_tp_stats')]/div)[2]/div[hasclass('o_tp_stat_value')]" position="inside">
+            <t t-call="helpdesk_mgmt_team_overview_related.RelatedBadge">
+                <t t-set="rel" t-value="member.related.extra"/>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-inherit="helpdesk_mgmt_team_overview.TicketRow" t-inherit-mode="extension">
+        <xpath expr="/t/div" position="attributes">
+            <attribute name="t-attf-class" separator=" " add="{{ticket.isRelated ? 'o_tp_ticket_related' : ''}}"/>
+        </xpath>
+        <xpath expr="/t/div" position="before">
+            <div t-if="!showAvatar and ticket.showOwnHeader"
+                t-attf-class="o_tp_group o_tp_group_own {{state.activePanel.type === 'extra' ? 'o_tp_g2' : 'o_tp_g1'}}">
+                <span class="o_tp_group_label">Own Tickets</span>
+                <span class="o_tp_group_count" t-esc="ticket.ownCount"/>
+            </div>
+            <div t-if="!showAvatar and ticket.firstRelated" class="o_tp_group o_tp_group_related">
+                <span class="o_tp_group_label">Related Tickets</span>
+                <span class="o_tp_group_count" t-esc="ticket.relatedCount"/>
+            </div>
+        </xpath>
+        <xpath expr="//span[hasclass('o_tp_ticket_date')]" position="before">
+            <img t-if="!showAvatar and ticket.isRelated and ticket.user_id"
+                class="o_tp_avatar o_tp_owner_avatar"
+                t-attf-src="/web/image/res.users/{{ticket.user_id[0]}}/avatar_128"
+                t-att-title="ticket.user_id[1]"/>
+        </xpath>
+    </t>
+</templates>
